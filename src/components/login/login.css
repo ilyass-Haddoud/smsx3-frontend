@@ -31,7 +31,7 @@
   /* background-color: blue; */
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
 }
 
 .login_form form header {
@@ -97,6 +97,10 @@
   gap: 10px;
 }
 
+.login_form form .remember input {
+  accent-color: black;
+}
+
 .login_form footer {
   font-size: small;
   text-align: center;
@@ -105,6 +109,10 @@
 
 .login_form footer strong {
   color: black;
+}
+
+.login .error {
+  color: red;
 }
 
 @media screen and (max-width: 768px) {
