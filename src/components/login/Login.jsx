@@ -12,7 +12,7 @@ import axios from "axios";
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [loginStep, setLoginStep] = useState(0);
-  const [otp, setOtp] = useState("");
+
   const {
     register,
     handleSubmit,
