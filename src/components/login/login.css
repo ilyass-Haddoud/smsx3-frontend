@@ -59,7 +59,7 @@
   font-size: medium;
 }
 
-.login_form form div label {
+.login_form form .form_input_group label {
   color: #666666;
   font-size: small;
 }

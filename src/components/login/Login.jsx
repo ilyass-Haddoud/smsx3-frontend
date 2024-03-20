@@ -5,14 +5,18 @@ import "./login.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import loginSchema from "./loginValidation";
+import { useState } from "react";
 
 const Login = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
-  console.log(errors);
+  const handlePasswordVisibility = () => {
+    setIsVisible(!isVisible);
+  };
   return (
     <div className="login">
       <div className="login_sidedImage">
@@ -32,13 +36,26 @@ const Login = () => {
               <span className="error">{errors.email.message}</span>
             )}
           </div>
-
           <div className="form_input_group">
             <div className="password_metadata">
               <label>Password</label>
-              <GoEyeClosed />
+              {isVisible && (
+                <GoEyeClosed
+                  style={{ cursor: "pointer" }}
+                  onClick={handlePasswordVisibility}
+                />
+              )}
+              {!isVisible && (
+                <GoEye
+                  style={{ cursor: "pointer" }}
+                  onClick={handlePasswordVisibility}
+                />
+              )}
             </div>
-            <input type="password" {...register("password")} />
+            <input
+              type={isVisible ? "text" : "password"}
+              {...register("password")}
+            />
             {errors.password && (
               <span className="error">{errors.password.message}</span>
             )}
@@ -51,7 +68,8 @@ const Login = () => {
               <option value="user">User</option>
             </select>
           </div>
-          <button>Sign in</button>
+
+          <button>Next</button>
           <div className="remember">
             <input type="checkbox" {...register("remember")} />
             <p>Remember me</p>
