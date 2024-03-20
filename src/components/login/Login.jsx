@@ -3,11 +3,9 @@ import { GoEye } from "react-icons/go";
 import { GoEyeClosed } from "react-icons/go";
 import "./login.css";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import loginSchema from "./loginValidation";
 import { useState } from "react";
-import OTPInput from "react-otp-input";
-import axios from "axios";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -73,7 +71,6 @@ const Login = () => {
               <option value="user">User</option>
             </select>
           </div>
-
           <button>Sign up</button>
           <div className="remember">
             <input type="checkbox" {...register("remember")} />

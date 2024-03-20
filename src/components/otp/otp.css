@@ -1,0 +1,25 @@
+.otp {
+  height: 100%;
+  width: 50%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otp form {
+  padding: 2rem;
+  min-width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.otp form header {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+input:focus {
+  outline-color: green;
+}
