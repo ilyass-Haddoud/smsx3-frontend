@@ -55,7 +55,7 @@ const Otp = () => {
           );
         }}
       />
-      <p>{errors.otp?.message}</p>
+      <span className="error">{errors.otp?.message}</span>
       <button disabled={loginState.isLoading}>
         {loginState.isLoading ? "Signing..." : "Sign up"}
       </button>
