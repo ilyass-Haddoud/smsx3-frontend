@@ -1,25 +1,69 @@
-.otp {
+.otp_form {
   height: 100%;
   width: 50%;
-  background-color: red;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.otp form {
+.otp_form form {
   padding: 2rem;
-  min-width: 80%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-.otp form header {
+.otp_form form input {
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.otp_form form button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+.otp_form form button:hover {
+  background-color: green;
+}
+
+.otp_form form header {
   font-size: 25px;
   font-weight: 600;
+}
+
+.otp_form form label {
+  color: #666666;
+  font-size: small;
 }
 
 input:focus {
   outline-color: green;
 }
+
+@media screen and (max-width: 1043px) {
+  .otp_form {
+    width: 100%;
+  }
+  .otp_form form {
+    min-width: 100%;
+    align-items: center;
+  }
+}
+
+/* @media screen and (max-width: 1043px) {
+  .otp_form {
+    width: 70%;
+  }
+  .otp_form form {
+    min-width: 100%;
+    align-items: center;
+  }
+} */
