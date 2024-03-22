@@ -1,9 +1,10 @@
-import Login from "../components/login/Login";
+import { RouterProvider } from "react-router-dom";
+import router from "../router";
 
 const App = () => {
   return (
     <div className="app container">
-      <Login />
+      <RouterProvider router={router} />
     </div>
   );
 };
