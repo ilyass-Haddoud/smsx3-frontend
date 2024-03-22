@@ -2,7 +2,6 @@ import OTPInput from "react-otp-input";
 import "./otp.css";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { setOtp } from "../../features/loginSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import otpSchema from "./otpValidation";
 import loginRequest from "../../features/loginApi";

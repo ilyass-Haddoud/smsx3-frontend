@@ -39,5 +39,5 @@ const loginSlice = createSlice({
   },
 });
 
-export const { setCredentials, setOtp } = loginSlice.actions;
+export const { setCredentials } = loginSlice.actions;
 export default loginSlice.reducer;
