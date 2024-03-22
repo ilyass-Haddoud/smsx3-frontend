@@ -5,7 +5,6 @@ const initialState = {
   user: {
     email: "",
     password: "",
-    otp: "",
   },
   isLoading: false,
   errors: null,
@@ -19,10 +18,6 @@ const loginSlice = createSlice({
     setCredentials: (state, action) => {
       state.user.email = action.payload.email;
       state.user.password = action.payload.password;
-    },
-
-    setOtp: (state, action) => {
-      state.user.otp = action.payload.otp;
     },
   },
   extraReducers: (builder) => {

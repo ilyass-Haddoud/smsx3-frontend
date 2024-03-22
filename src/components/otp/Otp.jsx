@@ -6,7 +6,6 @@ import { setOtp } from "../../features/loginSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import otpSchema from "./otpValidation";
 import loginRequest from "../../features/loginApi";
-import { useEffect } from "react";
 
 const Otp = () => {
   const dispatch = useDispatch();
@@ -23,14 +22,11 @@ const Otp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(otpSchema) });
-  useEffect(() => {
-    console.log(loginState);
-  }, [loginState]);
+
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        dispatch(setOtp(data));
-        dispatch(loginRequest(loginState.user));
+        dispatch(loginRequest({ ...loginState.user, otp: data.otp }));
       })}
     >
       <header>Two Factor Authentication</header>

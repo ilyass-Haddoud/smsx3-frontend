@@ -4,7 +4,7 @@ import { GoEyeClosed } from "react-icons/go";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import loginSchema from "./loginValidation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../features/loginSlice";
