@@ -1,0 +1,86 @@
+.register {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: red; */
+}
+
+.baseinfo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.baseinfo form {
+  max-width: 100%;
+  /* background-color: blue; */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.baseinfo form div {
+  display: flex;
+  gap: 20px;
+}
+
+.baseinfo form header {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.baseinfo form input {
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.baseinfo form div input {
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.baseinfo form input:focus {
+  outline-color: green;
+}
+
+.baseinfo form button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.baseinfo form button:hover {
+  background-color: green;
+}
+
+.baseinfo form .form_input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .baseinfo {
+    width: 100%;
+  }
+  .baseinfo form {
+    min-width: 100%;
+  }
+  .baseinfo form div {
+    flex-direction: column;
+  }
+}

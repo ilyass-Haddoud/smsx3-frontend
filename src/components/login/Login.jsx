@@ -1,4 +1,5 @@
-import SideImage from "../../assets/login/c3tRg7Nt0Z.jpg";
+import SideImage from "../../assets/login/supplier_illustration.jpg";
+import Sage from "../../assets/SageLogo.png";
 import { GoEye } from "react-icons/go";
 import { GoEyeClosed } from "react-icons/go";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,6 +28,7 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login_sidedImage">
+        <img src={Sage} alt="sage" />
         <img src={SideImage} alt="suppliers_image" />
       </div>
       {step == 0 && (
