@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import otpSchema from "./otpValidation";
-import loginRequest from "../../features/loginApi";
+import loginRequest from "../../features/login/loginApi";
 
 const Otp = () => {
   const dispatch = useDispatch();

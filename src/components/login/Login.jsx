@@ -8,8 +8,9 @@ import loginSchema from "./loginValidation";
 import { useEffect, useState } from "react";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "../../features/loginSlice";
+import { setCredentials } from "../../features/login/loginSlice";
 import Otp from "../otp/Otp";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [step, setStep] = useState(0);
@@ -86,7 +87,10 @@ const Login = () => {
               <p>Remember me</p>
             </div>
             <footer>
-              Don't have an account ? <strong>Sign up</strong>
+              Don't have an account ?{" "}
+              <strong>
+                <Link to={"/auth/register"}>Sign up</Link>
+              </strong>
             </footer>
           </form>
         </div>
