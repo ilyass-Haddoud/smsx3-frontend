@@ -8,6 +8,7 @@ import AdditionalInfo from "./steps/AdditionalInfo";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import OtpScanning from "./steps/OtpScanning";
 
 const Register = () => {
   const style = {
@@ -58,6 +59,7 @@ const Register = () => {
       {step == 1 && <BaseInfo step={step} setStep={setStep} />}
       {step == 2 && <ContactDetails step={step} setStep={setStep} />}
       {step == 3 && <AdditionalInfo step={step} setStep={setStep} />}
+      {step == 4 && <OtpScanning step={step} setStep={setStep} />}
     </div>
   );
 };

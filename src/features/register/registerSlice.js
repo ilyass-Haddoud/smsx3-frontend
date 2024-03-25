@@ -22,6 +22,7 @@ const initialState = {
   },
   isLoading: false,
   errors: null,
+  otpImage: "",
 };
 
 const registerSlice = createSlice({
@@ -36,14 +37,17 @@ const registerSlice = createSlice({
     builder.addCase(registerRequest.fulfilled, (state, action) => {
       state.errors = null;
       state.isLoading = false;
+      state.otpImage = action.payload;
     });
     builder.addCase(registerRequest.rejected, (state, action) => {
       state.errors = action.error.message;
       state.isLoading = false;
+      state.otpImage = "";
     });
     builder.addCase(registerRequest.pending, (state) => {
       state.isLoading = true;
       state.errors = null;
+      state.otpImage = "";
     });
   },
 });

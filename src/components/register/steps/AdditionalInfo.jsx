@@ -3,7 +3,7 @@ import { setCredentials } from "../../../features/register/registerSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const AdditionalInfo = () => {
+const AdditionalInfo = ({ step, setStep }) => {
   const {
     register,
     handleSubmit,
@@ -17,7 +17,7 @@ const AdditionalInfo = () => {
       <form
         onSubmit={handleSubmit((data) => {
           dispatch(setCredentials(data));
-          navigate("/");
+          setStep((step) => step + 1);
         })}
       >
         <header>Sign Up</header>
