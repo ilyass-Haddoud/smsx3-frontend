@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { setCredentials } from "../../../features/register/registerSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AdditionalInfo = () => {
   const {
@@ -9,12 +10,14 @@ const AdditionalInfo = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="registerstep">
       <form
         onSubmit={handleSubmit((data) => {
           dispatch(setCredentials(data));
+          navigate("/");
         })}
       >
         <header>Sign Up</header>

@@ -31,23 +31,20 @@ const registerSlice = createSlice({
     setCredentials: (state, action) => {
       state.supplier = { ...state.supplier, ...action.payload };
     },
-    extraReducers: (builder) => {
-      builder.addCase(registerRequest.fulfilled, (state, action) => {
-        state.errors = null;
-        state.isLoading = false;
-        state.token = action.payload;
-      });
-      builder.addCase(registerRequest.rejected, (state, action) => {
-        state.errors = action.error.message;
-        state.isLoading = false;
-        state.token = "";
-      });
-      builder.addCase(registerRequest.pending, (state) => {
-        state.isLoading = true;
-        state.errors = null;
-        state.token = "";
-      });
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registerRequest.fulfilled, (state, action) => {
+      state.errors = null;
+      state.isLoading = false;
+    });
+    builder.addCase(registerRequest.rejected, (state, action) => {
+      state.errors = action.error.message;
+      state.isLoading = false;
+    });
+    builder.addCase(registerRequest.pending, (state) => {
+      state.isLoading = true;
+      state.errors = null;
+    });
   },
 });
 

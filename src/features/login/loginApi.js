@@ -10,11 +10,9 @@ const loginRequest = createAsyncThunk(
         { email: requestData.email, password: requestData.password }
       );
       const data = await res.data;
-      console.log("Token", data);
       localStorage.setItem("token", data);
       return data;
     } catch (error) {
-      console.log(error.response.data);
       throw error.response.data;
     }
   }
