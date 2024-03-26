@@ -30,7 +30,8 @@
   height: 60%;
 }
 
-.registerstep {
+.registerstep,
+.otpscanning {
   width: 100%;
   width: 50%;
   display: flex;
@@ -102,6 +103,26 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.otpscanning {
+  gap: 2rem;
+}
+
+.otpscanning button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.otpscanning button:hover {
+  background-color: green;
 }
 
 @media screen and (max-width: 768px) {
