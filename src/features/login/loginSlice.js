@@ -5,6 +5,7 @@ const initialState = {
   user: {
     email: "",
     password: "",
+    role: "",
   },
   isLoading: false,
   errors: null,
@@ -18,6 +19,7 @@ const loginSlice = createSlice({
     setCredentials: (state, action) => {
       state.user.email = action.payload.email;
       state.user.password = action.payload.password;
+      state.user.role = action.payload.role;
     },
   },
   extraReducers: (builder) => {

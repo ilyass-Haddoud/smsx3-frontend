@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import OtpScanning from "./steps/OtpScanning";
+import { ToastContainer } from "react-toastify";
 
 const Register = () => {
   const style = {
@@ -60,6 +61,7 @@ const Register = () => {
       {step == 2 && <ContactDetails step={step} setStep={setStep} />}
       {step == 3 && <AdditionalInfo step={step} setStep={setStep} />}
       {step == 4 && <OtpScanning step={step} setStep={setStep} />}
+      <ToastContainer />
     </div>
   );
 };

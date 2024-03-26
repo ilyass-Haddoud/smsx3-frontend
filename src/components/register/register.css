@@ -125,6 +125,10 @@
   background-color: green;
 }
 
+.error {
+  color: red;
+}
+
 @media screen and (max-width: 768px) {
   .register_sidedImage {
     display: none;
