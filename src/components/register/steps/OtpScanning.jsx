@@ -6,7 +6,6 @@ const OtpScanning = () => {
   const state = useSelector((state) => state.registerReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(state);
   return (
     <div className="otpscanning">
       <h2>Scan the code bellow</h2>
