@@ -8,13 +8,14 @@ const OtpScanning = () => {
   const dispatch = useDispatch();
   return (
     <div className="otpscanning">
-      <h2>Scan the code bellow</h2>
+      {!state.otpImage && <h2>Générer le Code QR de Connexion</h2>}
+      {state.otpImage && <h2>Scanner le code ci-dessous</h2>}
       {!state.otpImage && (
         <button
           disabled={state.isLoading}
           onClick={() => dispatch(registerRequest(state.supplier))}
         >
-          {state.isLoading ? "Loading" : "Get QR Code"}
+          {state.isLoading ? "Chargement" : "Générer le QR Code"}
         </button>
       )}
 

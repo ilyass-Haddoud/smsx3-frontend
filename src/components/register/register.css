@@ -79,7 +79,8 @@
   font-size: medium;
 } */
 
-.registerstep form input:focus {
+.registerstep form input,
+select:focus {
   outline-color: green;
 }
 
@@ -103,6 +104,26 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.registerstep form .form_input_group .password_metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666666;
+}
+
+.registerstep form .form_input_group select {
+  min-width: 230px;
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.registerstep form .form_input_group label {
+  color: #666666;
+  font-size: small;
 }
 
 .otpscanning {

@@ -10,9 +10,10 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import registerRequest from "../../../features/register/registerApi";
+import { toast } from "react-toastify";
 
 const AdditionalInfo = ({ step, setStep }) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -39,6 +40,16 @@ const AdditionalInfo = ({ step, setStep }) => {
     setStep((step) => step + 1);
   };
   const dispatch = useDispatch();
+  const checkErrorsAndNotify = () => {
+    if (Object.keys(errors).length !== 0) {
+      toast.error("Veuillez remplir tous les champs obligatoires.", {
+        theme: "colored",
+      });
+    }
+  };
+  useEffect(() => {
+    checkErrorsAndNotify();
+  }, [errors]);
 
   return (
     <div className="registerstep">
@@ -48,43 +59,67 @@ const AdditionalInfo = ({ step, setStep }) => {
           setOpen(true);
         })}
       >
-        <header>Sign Up</header>
-        <h3>Additional Information</h3>
+        <header>S'inscrire</header>
+        <h3>Informations supplémentaires</h3>
         <div>
           <div className="form_input_group">
             <label htmlFor="">Fournisseur groupe</label>
-            <input type="text" {...register("BPSGRU")} />
+            <input
+              type="text"
+              {...register("BPSGRU", { required: "BPSGRU field is required" })}
+            />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Tiers risque</label>
-            <input type="text" {...register("BPSRSK")} />
+            <input
+              type="text"
+              {...register("BPSRSK", { required: "BPSRSK field is required" })}
+            />
           </div>
         </div>
         <div>
           <div className="form_input_group">
             <label htmlFor="">Catégorie</label>
-            <input type="text" {...register("BSGCOD")} />
+            <input
+              type="text"
+              {...register("BSGCOD", { required: "BSGCOD field is required" })}
+            />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Transporteur</label>
-            <input type="text" {...register("BPTNUM")} />
+            <input
+              type="text"
+              {...register("BPTNUM", { required: "BPTNUM field is required" })}
+            />
           </div>
         </div>
         <div>
           <div className="form_input_group">
-            <label htmlFor="">Numéro du client/fournisseur</label>
-            <input type="text" {...register("BPSNUMBPS")} />
+            <label htmlFor="">N° fournisseur</label>
+            <input
+              type="text"
+              {...register("BPSNUMBPS", {
+                required: "BPSNUMBPS field is required",
+              })}
+            />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Type de fournisseur</label>
-            <input type="text" {...register("BPSTYP")} />
+            <select {...register("BPSTYP")}>
+              <option value="normal">Normal</option>
+              <option value="prospect">Prospect</option>
+              <option value="divers">Divers</option>
+            </select>
           </div>
         </div>
         <div className="form_input_group">
           <label htmlFor="">Observations</label>
-          <input type="text" {...register("BPSREM")} />
+          <input
+            type="text"
+            {...register("BPSREM", { required: "BPSREM field is required" })}
+          />
         </div>
-        <button>Submit</button>
+        <button>Soumettre</button>
       </form>
       <Fragment>
         <BootstrapDialog
@@ -109,26 +144,26 @@ const AdditionalInfo = ({ step, setStep }) => {
           </IconButton>
           <DialogContent dividers>
             <Typography gutterBottom>
-              Thank you for providing your information. Your details have been
-              received successfully.
+              Merci d'avoir fourni vos informations. Vos détails ont été reçus
+              avec succès.
             </Typography>
             <Typography gutterBottom>
-              To enhance the security of your account, we will now generate a QR
-              code that you need to scan using your preferred authentication
-              app, such as Google Authenticator.
+              Pour renforcer la sécurité de votre compte, nous allons maintenant
+              générer un code QR que vous devrez scanner à l'aide de votre
+              application d'authentification préférée, telle que Google
+              Authenticator.
             </Typography>
             <Typography gutterBottom>
-              Once scanned, you will receive a one-time password (OTP) code.
-              This OTP code will be required every time you log in to your
-              account for added security.
+              Une fois scanné, vous recevrez un code à usage unique (OTP). Ce
+              code OTP sera requis chaque fois que vous vous connectez à votre
+              compte pour une sécurité accrue.
             </Typography>
             <Typography gutterBottom>
-              Please proceed with submission. If there are any errors or changes
-              needed, you will be prompted to update the form accordingly.
+              Veuillez procéder à la soumission. Si des erreurs ou des
+              modifications sont nécessaires, vous serez invité à mettre à jour
+              le formulaire en conséquence.
             </Typography>
-            <Typography gutterBottom>
-              Thank you for your cooperation.
-            </Typography>
+            <Typography gutterBottom>Merci pour votre coopération.</Typography>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose}>

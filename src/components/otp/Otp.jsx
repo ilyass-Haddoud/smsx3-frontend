@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import otpSchema from "./otpValidation";
 import loginRequest from "../../features/login/loginApi";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Otp = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,16 @@ const Otp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(otpSchema) });
+  const checkErrorsAndNotify = () => {
+    if (Object.keys(errors).length !== 0) {
+      toast.error("Veuillez insérer le code otp.", {
+        theme: "colored",
+      });
+    }
+  };
+  useEffect(() => {
+    checkErrorsAndNotify();
+  }, [errors]);
 
   return (
     <form
@@ -28,10 +40,10 @@ const Otp = () => {
         dispatch(loginRequest({ ...loginState.user, otp: data.otp }));
       })}
     >
-      <header>Two Factor Authentication</header>
+      <header>Authentification à Deux Facteurs</header>
       <label>
-        Your login is protected with an anthenticator app, please enter your
-        authenticator code below
+        Votre connexion est protégée avec une application d'authentification.
+        Veuillez saisir votre code d'authentification ci-dessous.
       </label>
       <Controller
         control={control}
@@ -50,9 +62,8 @@ const Otp = () => {
           );
         }}
       />
-      <span className="error">{errors.otp?.message}</span>
       <button disabled={loginState.isLoading}>
-        {loginState.isLoading ? "Signing..." : "Sign up"}
+        {loginState.isLoading ? "Chargement..." : "Se connecter"}
       </button>
     </form>
   );

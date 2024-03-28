@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../../features/register/registerSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const BaseInfo = ({ step, setStep }) => {
   const {
@@ -14,13 +15,15 @@ const BaseInfo = ({ step, setStep }) => {
 
   const checkErrorsAndNotify = () => {
     if (Object.keys(errors).length !== 0) {
-      toast.error("Please fill in all required fields.", {
+      toast.error("Veuillez remplir tous les champs obligatoires.", {
         theme: "colored",
       });
     }
   };
 
-  checkErrorsAndNotify();
+  useEffect(() => {
+    checkErrorsAndNotify();
+  }, [errors]);
 
   return (
     <div className="registerstep">
@@ -30,18 +33,18 @@ const BaseInfo = ({ step, setStep }) => {
           setStep((step) => step + 1);
         })}
       >
-        <header>Sign Up</header>
-        <h3>Base Information </h3>
+        <header>S'inscrire</header>
+        <h3>Informations de base</h3>
         <div>
           <div className="form_input_group">
-            <label htmlFor="">First name</label>
+            <label htmlFor="">Prénom</label>
             <input
               type="text"
               {...register("BPSLNAME", { required: "first name required" })}
             />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Last name</label>
+            <label htmlFor="">Nom</label>
             <input
               type="text"
               {...register("BPSFNAME", { required: "last name required" })}
@@ -50,7 +53,7 @@ const BaseInfo = ({ step, setStep }) => {
         </div>
         <div>
           <div className="form_input_group">
-            <label htmlFor="">Identifier</label>
+            <label htmlFor="">Identifiant</label>
             <input
               type="text"
               {...register("BPSNUM", { required: "identifier name required" })}
@@ -61,7 +64,7 @@ const BaseInfo = ({ step, setStep }) => {
             <input
               type="text"
               {...register("BPSNAM", {
-                required: "raison sociale name required",
+                required: "raison sociale required",
               })}
             />
           </div>
@@ -80,7 +83,7 @@ const BaseInfo = ({ step, setStep }) => {
             {...register("BPAADD", { required: "adresse par défaut" })}
           />
         </div>
-        <button>Next</button>
+        <button>Suivant</button>
       </form>
     </div>
   );

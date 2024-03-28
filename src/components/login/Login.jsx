@@ -7,24 +7,35 @@ import { useForm } from "react-hook-form";
 import loginSchema from "./loginValidation";
 import { useEffect, useState } from "react";
 import "./login.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/login/loginSlice";
 import Otp from "../otp/Otp";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [step, setStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
-  const loginState = useSelector((state) => state.loginReducer);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
+  console.log(errors);
   const handlePasswordVisibility = () => {
     setIsVisible(!isVisible);
   };
+  const checkErrorsAndNotify = () => {
+    if (Object.keys(errors).length !== 0) {
+      toast.error("Veuillez remplir tous les champs obligatoires.", {
+        theme: "colored",
+      });
+    }
+  };
+  useEffect(() => {
+    checkErrorsAndNotify();
+  }, [errors]);
 
   return (
     <div className="login">
@@ -40,18 +51,15 @@ const Login = () => {
               setStep(1);
             })}
           >
-            <header>Sign in</header>
+            <header>Se connecter</header>
 
             <div className="form_input_group">
-              <label>Email or phone number</label>
+              <label>Mail ou numéro de téléphone</label>
               <input type="email" {...register("email")} />
-              {errors.email && (
-                <span className="error">{errors.email.message}</span>
-              )}
             </div>
             <div className="form_input_group">
               <div className="password_metadata">
-                <label>Password</label>
+                <label>Mot de passe</label>
                 {isVisible && (
                   <GoEyeClosed
                     style={{ cursor: "pointer" }}
@@ -69,27 +77,24 @@ const Login = () => {
                 type={isVisible ? "text" : "password"}
                 {...register("password")}
               />
-              {errors.password && (
-                <span className="error">{errors.password.message}</span>
-              )}
             </div>
             <div className="form_input_group">
-              <label>Select your role: </label>
+              <label>Sélectionnez votre rôle : </label>
               <select {...register("role")} defaultValue="user">
-                <option value="admin">Admin</option>
-                <option value="supplier">Supplier</option>
-                <option value="user">User</option>
+                <option value="admin">Admin </option>
+                <option value="supplier">Fournisseur</option>
+                <option value="user">Utilisateur</option>
               </select>
             </div>
-            <button>Next</button>
+            <button>Suivant</button>
             <div className="remember">
               <input type="checkbox" {...register("remember")} />
-              <p>Remember me</p>
+              <p>Se souvenir de moi</p>
             </div>
             <footer>
-              Don't have an account ?{" "}
+              Vous n'avez pas de compte ?
               <strong>
-                <Link to={"/auth/register"}>Sign up</Link>
+                <Link to={"/auth/register"}> S'inscrire</Link>
               </strong>
             </footer>
           </form>

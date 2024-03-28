@@ -40,15 +40,15 @@ const Register = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Important Notice
+              Avis important
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              This platform is exclusively dedicated to suppliers registered in
-              the Sage X3 system. If you are not already a registered supplier
-              in Sage X3, please refrain from registering on this portal. For
-              existing suppliers in the Sage X3 system, please proceed with
-              registration using your provided credentials. Thank you for your
-              understanding.
+              Cette plateforme est exclusivement dédiée aux fournisseurs
+              inscrits dans le système Sage X3. Si vous n'êtes pas déjà un
+              fournisseur enregistré dans Sage X3, veuillez vous abstenir de
+              vous inscrire sur ce portail. Pour les fournisseurs existants dans
+              le système Sage X3, veuillez procéder à l'inscription en utilisant
+              vos identifiants fournis. Merci pour votre compréhension.
             </Typography>
           </Box>
         </Modal>
@@ -61,7 +61,6 @@ const Register = () => {
       {step == 2 && <ContactDetails step={step} setStep={setStep} />}
       {step == 3 && <AdditionalInfo step={step} setStep={setStep} />}
       {step == 4 && <OtpScanning step={step} setStep={setStep} />}
-      <ToastContainer />
     </div>
   );
 };
