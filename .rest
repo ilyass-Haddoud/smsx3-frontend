@@ -1,0 +1,21 @@
+POST http://localhost:8080/auth/supplier/register
+Content-Type: application/json
+
+{
+    "BPSLNAME": "ilyass",
+    "BPSFNAME": "Haddoud",
+    "BPSNUM": "132",
+    "BPSNAM": "fdadf",
+    "BPAINV": "350 bloc q2 ltq hadika tghat oued fes",
+    "BPAADD": "fdsf",
+    "BPSNUMTEL": "0676142729",
+    "BPSADDEML": "ilyass.haddoud@gmail.com",
+    "BPSPASSE": "ilyass20S@",
+    "BPSREM": "afdf",
+    "BPSGRU": "ònàlk",
+    "BPSRSK": "risque",
+    "BSGCOD": "fdfda",
+    "BPTNUM": "fdf",
+    "BPSNUMBPS": "fdf",
+    "BPSTYP": "fdfa"
+}

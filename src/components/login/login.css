@@ -1,0 +1,140 @@
+.login {
+  height: 100%;
+  display: flex;
+  /* background-color: gray; */
+  justify-content: center;
+  align-items: center;
+}
+
+.login_sidedImage {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login_sidedImage img:nth-child(1) {
+  width: 20%;
+  height: 12%;
+}
+
+.login_sidedImage img:nth-child(2) {
+  width: 90%;
+  height: 60%;
+}
+
+.login_sidedImage img {
+  width: 90%;
+  height: 60%;
+}
+
+.login_form {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login_form form {
+  padding: 2rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.login_form form header {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.login_form form .form_input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login_form form .form_input_group .password_metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666666;
+}
+
+.login_form form .form_input_group select {
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.login_form form .form_input_group label {
+  color: #666666;
+  font-size: small;
+}
+
+.login_form form div input {
+  padding: 10px;
+  /* outline: none; */
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.login_form form div input:focus {
+  outline-color: green;
+}
+
+.login_form form button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.login_form form button:hover {
+  background-color: green;
+}
+
+.login_form form .remember {
+  display: flex;
+  gap: 10px;
+}
+
+.login_form form .remember input {
+  accent-color: green;
+}
+
+.login_form footer {
+  font-size: small;
+  text-align: center;
+  color: #666666;
+}
+
+.login_form footer strong {
+  color: black;
+}
+
+.login .error {
+  color: red;
+}
+
+@media screen and (max-width: 768px) {
+  .login_sidedImage {
+    display: none;
+  }
+  .login_form {
+    width: 100%;
+  }
+  .login_form form {
+    min-width: 100%;
+  }
+}

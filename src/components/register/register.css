@@ -1,0 +1,166 @@
+.register {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: red; */
+}
+
+.register_sidedImage {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register_sidedImage img:nth-child(1) {
+  width: 20%;
+  height: 12%;
+}
+
+.register_sidedImage img:nth-child(2) {
+  width: 90%;
+  height: 60%;
+}
+
+.register_sidedImage img {
+  width: 90%;
+  height: 60%;
+}
+
+.registerstep,
+.otpscanning {
+  width: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* background-color: yellow; */
+}
+
+.registerstep form {
+  min-width: 80%;
+  /* background-color: blue; */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.registerstep form div {
+  display: flex;
+  gap: 20px;
+}
+
+.registerstep form header {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.registerstep form h3 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.registerstep form input {
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+/* .registerstep form div input {
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+} */
+
+.registerstep form input,
+select:focus {
+  outline-color: green;
+}
+
+.registerstep form button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.registerstep form button:hover {
+  background-color: green;
+}
+
+.registerstep form .form_input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.registerstep form .form_input_group .password_metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666666;
+}
+
+.registerstep form .form_input_group select {
+  min-width: 230px;
+  padding: 10px;
+  border: 1px #666666 solid;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.registerstep form .form_input_group label {
+  color: #666666;
+  font-size: small;
+}
+
+.otpscanning {
+  gap: 2rem;
+}
+
+.otpscanning button {
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #c3c3c3;
+  color: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.otpscanning button:hover {
+  background-color: green;
+}
+
+.error {
+  color: red;
+}
+
+@media screen and (max-width: 768px) {
+  .register_sidedImage {
+    display: none;
+  }
+  .registerstep {
+    width: 100%;
+  }
+  .registerstep form {
+    min-width: 100%;
+  }
+  .registerstep form div {
+    flex-direction: column;
+  }
+}
