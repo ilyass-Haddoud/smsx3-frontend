@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { contactDetailsSchema } from "../registerValidation";
 
 const ContactDetails = ({ step, setStep }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +17,7 @@ const ContactDetails = ({ step, setStep }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(contactDetailsSchema) });
   const dispatch = useDispatch();
   const checkErrorsAndNotify = () => {
     if (Object.keys(errors).length !== 0) {
@@ -39,17 +41,11 @@ const ContactDetails = ({ step, setStep }) => {
         <h3>Coordonnées</h3>
         <div className="form_input_group">
           <label htmlFor="">Numéro de téléphone</label>
-          <input
-            type="text"
-            {...register("BPSNUMTEL", { required: "BPSNUMTEL required" })}
-          />
+          <input type="text" {...register("BPSNUMTEL")} />
         </div>
         <div className="form_input_group">
           <label htmlFor="">Adresse e-mail</label>
-          <input
-            type="text"
-            {...register("BPSADDEML", { required: "BPSADDEML required" })}
-          />
+          <input type="text" {...register("BPSADDEML")} />
         </div>
         <div className="form_input_group">
           <div className="password_metadata">
@@ -69,7 +65,7 @@ const ContactDetails = ({ step, setStep }) => {
           </div>
           <input
             type={isVisible ? "text" : "password"}
-            {...register("BPSPASSE", { required: "BPSPASSE required" })}
+            {...register("BPSPASSE")}
           />
         </div>
         <button>Suivant</button>

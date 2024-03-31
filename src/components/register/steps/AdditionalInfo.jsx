@@ -13,7 +13,9 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import registerRequest from "../../../features/register/registerApi";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
+import { additionalInfoSchema } from "../registerValidation";
 
 const AdditionalInfo = ({ step, setStep }) => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -29,7 +31,7 @@ const AdditionalInfo = ({ step, setStep }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(additionalInfoSchema) });
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,44 +66,27 @@ const AdditionalInfo = ({ step, setStep }) => {
         <div>
           <div className="form_input_group">
             <label htmlFor="">Fournisseur groupe</label>
-            <input
-              type="text"
-              {...register("BPSGRU", { required: "BPSGRU field is required" })}
-            />
+            <input type="text" {...register("BPSGRU")} />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Tiers risque</label>
-            <input
-              type="text"
-              {...register("BPSRSK", { required: "BPSRSK field is required" })}
-            />
+            <input type="text" {...register("BPSRSK")} />
           </div>
         </div>
         <div>
           <div className="form_input_group">
             <label htmlFor="">Catégorie</label>
-            <input
-              type="text"
-              {...register("BSGCOD", { required: "BSGCOD field is required" })}
-            />
+            <input type="text" {...register("BSGCOD")} />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Transporteur</label>
-            <input
-              type="text"
-              {...register("BPTNUM", { required: "BPTNUM field is required" })}
-            />
+            <input type="text" {...register("BPTNUM")} />
           </div>
         </div>
         <div>
           <div className="form_input_group">
             <label htmlFor="">N° fournisseur</label>
-            <input
-              type="text"
-              {...register("BPSNUMBPS", {
-                required: "BPSNUMBPS field is required",
-              })}
-            />
+            <input type="text" {...register("BPSNUMBPS")} />
           </div>
           <div className="form_input_group">
             <label htmlFor="">Type de fournisseur</label>
@@ -114,10 +99,7 @@ const AdditionalInfo = ({ step, setStep }) => {
         </div>
         <div className="form_input_group">
           <label htmlFor="">Observations</label>
-          <input
-            type="text"
-            {...register("BPSREM", { required: "BPSREM field is required" })}
-          />
+          <input type="text" {...register("BPSREM")} />
         </div>
         <button>Soumettre</button>
       </form>
