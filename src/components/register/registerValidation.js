@@ -13,11 +13,12 @@ export const baseInfoSchema = yup
 
 export const contactDetailsSchema = yup
   .object({
-    BPSNUMTEL: yup
+    BPSNUMTEL: yup.string().required("BPSNUMTEL required"),
+
+    BPSADDEML: yup
       .string()
-      .required("BPSNUMTEL required")
+      .required("BPSADDEML required")
       .email("Invalid email"),
-    BPSADDEML: yup.string().required("BPSADDEML required"),
     BPSPASSE: yup.string().required("BPSPASSE required"),
   })
   .required();
