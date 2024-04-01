@@ -11,7 +11,6 @@ import { useEffect } from "react";
 const Otp = () => {
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.loginReducer);
-  console.log(loginState.errors);
 
   const otpStyle = {
     padding: "10px",

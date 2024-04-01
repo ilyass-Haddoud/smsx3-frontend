@@ -1,11 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import registerRequest from "../../../features/register/registerApi";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const OtpScanning = () => {
   const state = useSelector((state) => state.registerReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const checkErrorsAndNotify = () => {
+    if (state.errors !== 0) {
+      toast.error(state.errors, {
+        theme: "colored",
+      });
+    }
+  };
+  useEffect(() => {
+    checkErrorsAndNotify();
+  }, [state.errors]);
   return (
     <div className="otpscanning">
       {!state.otpImage && <h2>Générer le Code QR de Connexion</h2>}
