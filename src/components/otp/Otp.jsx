@@ -11,6 +11,7 @@ import { useEffect } from "react";
 const Otp = () => {
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.loginReducer);
+  console.log(loginState.errors);
 
   const otpStyle = {
     padding: "10px",
@@ -29,10 +30,15 @@ const Otp = () => {
         theme: "colored",
       });
     }
+    if (loginState.errors != null) {
+      toast.error(loginState.errors, {
+        theme: "colored",
+      });
+    }
   };
   useEffect(() => {
     checkErrorsAndNotify();
-  }, [errors]);
+  }, [errors, loginState.errors]);
 
   return (
     <form
