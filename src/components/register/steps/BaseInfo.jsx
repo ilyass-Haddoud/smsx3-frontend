@@ -37,7 +37,7 @@ const BaseInfo = ({ step, setStep }) => {
       >
         <header>S'inscrire</header>
         <h3>Informations de base</h3>
-        <div>
+        <div className="input_grp">
           <div className="form_input_group">
             <label htmlFor="">Prénom</label>
             <input type="text" {...register("BPSLNAME")} />
@@ -47,7 +47,7 @@ const BaseInfo = ({ step, setStep }) => {
             <input type="text" {...register("BPSFNAME")} />
           </div>
         </div>
-        <div>
+        <div className="input_grp">
           <div className="form_input_group">
             <label htmlFor="">Identifiant</label>
             <input type="text" {...register("BPSNUM")} />

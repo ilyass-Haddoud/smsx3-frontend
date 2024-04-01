@@ -160,7 +160,7 @@ select:focus {
   .registerstep form {
     min-width: 100%;
   }
-  .registerstep form div {
+  .registerstep form .input_grp {
     flex-direction: column;
   }
 }

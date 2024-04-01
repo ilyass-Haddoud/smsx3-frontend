@@ -63,7 +63,7 @@ const AdditionalInfo = ({ step, setStep }) => {
       >
         <header>S'inscrire</header>
         <h3>Informations supplémentaires</h3>
-        <div>
+        <div className="input_grp">
           <div className="form_input_group">
             <label htmlFor="">Fournisseur groupe</label>
             <input type="text" {...register("BPSGRU")} />
@@ -73,7 +73,7 @@ const AdditionalInfo = ({ step, setStep }) => {
             <input type="text" {...register("BPSRSK")} />
           </div>
         </div>
-        <div>
+        <div className="input_grp">
           <div className="form_input_group">
             <label htmlFor="">Catégorie</label>
             <input type="text" {...register("BSGCOD")} />
@@ -83,7 +83,7 @@ const AdditionalInfo = ({ step, setStep }) => {
             <input type="text" {...register("BPTNUM")} />
           </div>
         </div>
-        <div>
+        <div className="input_grp">
           <div className="form_input_group">
             <label htmlFor="">N° fournisseur</label>
             <input type="text" {...register("BPSNUMBPS")} />
