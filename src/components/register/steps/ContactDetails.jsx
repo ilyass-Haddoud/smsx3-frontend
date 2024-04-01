@@ -18,7 +18,6 @@ const ContactDetails = ({ step, setStep }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(contactDetailsSchema) });
-  console.log(errors);
   const dispatch = useDispatch();
   const checkErrorsAndNotify = () => {
     if (Object.keys(errors).length !== 0) {

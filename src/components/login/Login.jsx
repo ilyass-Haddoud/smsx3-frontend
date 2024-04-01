@@ -22,7 +22,6 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
-  console.log(errors);
   const handlePasswordVisibility = () => {
     setIsVisible(!isVisible);
   };
