@@ -1,12 +1,62 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Modal, Typography, Box, Button } from "@mui/material";
+import {
+  GridRowModes,
+  DataGrid,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+} from "@mui/x-data-grid";
+import { Modal, Typography, Box, Button, Stack } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
 import data from "../data/invoices/data";
 
 const Home = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [rows, setRows] = useState(data);
+  const [rowModesModel, setRowModesModel] = useState({});
 
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleEditClick = (id) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = (id) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
   const handleCloseModal = () => {
     setOpenModal(false);
   };
@@ -26,25 +76,81 @@ const Home = () => {
         alignItems: "center",
       }}
     >
-      <DataGrid
-        rows={data}
-        columns={[
-          {
-            field: "numero_facture",
-            headerName: "Numéro de Facture",
-            flex: 1,
-          },
-          {
-            field: "client_facture",
-            headerName: "Client",
-            flex: 1,
-          },
-          { field: "etat", headerName: "État", flex: 1 },
-          { field: "date", headerName: "Date", flex: 1 },
-        ]}
-        rowsPerPageOptions={[5, 10, 20]}
-        onRowClick={handleRowClick}
-      />
+      <Stack direction="column" spacing={2} height={"100%"} width={"100%"}>
+        <Button variant="contained">Ajouter une facture</Button>
+        <DataGrid
+          rows={rows}
+          columns={[
+            {
+              field: "numero_facture",
+              headerName: "Numéro de Facture",
+              flex: 1,
+              editable: true,
+            },
+            {
+              field: "client_facture",
+              headerName: "Client",
+              flex: 1,
+              editable: true,
+            },
+            { field: "etat", headerName: "État", flex: 1, editable: true },
+            { field: "date", headerName: "Date", flex: 1, editable: true },
+            {
+              field: "actions",
+              type: "actions",
+              headerName: "Actions",
+              cellClassName: "actions",
+              getActions: ({ id }) => {
+                const isInEditMode =
+                  rowModesModel[id]?.mode === GridRowModes.Edit;
+
+                if (isInEditMode) {
+                  return [
+                    <GridActionsCellItem
+                      icon={<SaveIcon />}
+                      label="Save"
+                      sx={{
+                        color: "primary.main",
+                      }}
+                      onClick={handleSaveClick(id)}
+                    />,
+                    <GridActionsCellItem
+                      icon={<CancelIcon />}
+                      label="Cancel"
+                      className="textPrimary"
+                      onClick={handleCancelClick(id)}
+                      color="inherit"
+                    />,
+                  ];
+                }
+
+                return [
+                  <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    className="textPrimary"
+                    onClick={handleEditClick(id)}
+                    color="inherit"
+                  />,
+                  <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={handleDeleteClick(id)}
+                    color="inherit"
+                  />,
+                ];
+              },
+            },
+          ]}
+          editMode="row"
+          rowModesModel={rowModesModel}
+          onRowModesModelChange={handleRowModesModelChange}
+          onRowEditStop={handleRowEditStop}
+          processRowUpdate={processRowUpdate}
+          rowsPerPageOptions={[10, 20, 30]}
+          onRowClick={handleRowClick}
+        />
+      </Stack>
       <Modal
         open={openModal}
         onClose={handleCloseModal}
