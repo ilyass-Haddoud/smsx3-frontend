@@ -177,78 +177,182 @@ const Home = React.memo(() => {
             p: 2,
           }}
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography sx={{ marginBottom: "2rem" }} variant="h6" gutterBottom>
             Modifier la Facture
           </Typography>
           {editedInvoice && (
-            <div>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Numéro de Facture"
-                    name="numero_facture"
-                    value={editedValues.numero_facture}
-                    fullWidth
-                    onChange={handleInputChange}
-                    sx={{ mb: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Site de vente"
-                    name="site_vente"
-                    value={editedValues.site_vente}
-                    fullWidth
-                    onChange={handleInputChange}
-                    sx={{ mb: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Type"
-                    name="type"
-                    value={editedValues.type}
-                    fullWidth
-                    onChange={handleInputChange}
-                    sx={{ mb: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Référence"
-                    name="reference"
-                    value={editedValues.reference}
-                    fullWidth
-                    onChange={handleInputChange}
-                    sx={{ mb: 2 }}
-                  />
-                </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Numéro de Facture"
+                  name="numero_facture"
+                  value={editedValues.numero_facture}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
               </Grid>
-              <TextField
-                label="Date"
-                name="date"
-                value={editedValues.date}
-                fullWidth
-                onChange={handleInputChange}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Client"
-                name="client_facture"
-                value={editedValues.client_facture}
-                fullWidth
-                onChange={handleInputChange}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Intitulé du client"
-                name="client_intitule"
-                value={editedValues.client_intitule}
-                fullWidth
-                onChange={handleInputChange}
-                sx={{ mb: 2 }}
-              />
-            </div>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Site de vente"
+                  name="site_vente"
+                  value={editedValues.site_vente}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Type"
+                  name="type"
+                  value={editedValues.type}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Référence"
+                  name="reference"
+                  value={editedValues.reference}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Date"
+                  name="date"
+                  value={editedValues.date}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Client"
+                  name="client_facture"
+                  value={editedValues.client_facture}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Intitulé du client"
+                  name="client_intitule"
+                  value={editedValues.client_intitule}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Commande du client"
+                  name="client_commande"
+                  value={editedValues.client_commande}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Tiers payeur"
+                  name="tiers_payeur"
+                  value={editedValues.tiers_payeur}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Groupe client"
+                  name="client_groupe"
+                  value={editedValues.client_groupe}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="État"
+                  name="etat"
+                  value={editedValues.etat}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Devise"
+                  name="devise"
+                  value={editedValues.devise}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Début échéance"
+                  name="debut_echeance"
+                  value={editedValues.debut_echeance}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Type de paiement"
+                  name="type_paiement"
+                  value={editedValues.type_paiement}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Date de début de période"
+                  name="date_debut_periode"
+                  value={editedValues.date_debut_periode}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Date de fin de période"
+                  name="date_fin_periode"
+                  value={editedValues.date_fin_periode}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <TextField
+                  label="Document"
+                  name="document"
+                  value={editedValues.document}
+                  fullWidth
+                  onChange={handleInputChange}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+            </Grid>
           )}
           <Button onClick={handleSaveClick}>Modifier</Button>
           <Button onClick={handleCancelClick}>Annuler</Button>
