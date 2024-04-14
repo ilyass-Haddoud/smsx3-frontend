@@ -4,9 +4,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import InvoicesTable from "../components/invoices/InvoicesTable";
-import AddInvoice from "../components/invoices/addInvoice/AddInvoice";
-import Claims from "../components/claims/Claims";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,7 +38,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function Claims() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -50,32 +47,27 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <h2 style={{ marginBottom: "1rem" }}>Tableau de bord</h2>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
+          value={value}
+          onChange={handleChange}
           textColor="inherit"
           TabIndicatorProps={{
             style: {
               backgroundColor: "green",
             },
           }}
-          value={value}
-          onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Mes des factures" {...a11yProps(0)} />
-          <Tab label="Réclamations" {...a11yProps(1)} />
-          <Tab label="Deposer une facture" {...a11yProps(2)} />
+          <Tab label="Mes réclamations" {...a11yProps(0)} />
+          <Tab label="Réclamer / Demander" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <InvoicesTable />
+        Item One
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Claims />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <AddInvoice />
+        Item Two
       </CustomTabPanel>
     </Box>
   );

@@ -1,21 +1,8 @@
-POST http://localhost:8080/auth/supplier/register
+POST http://localhost:8080/mail/send
 Content-Type: application/json
 
 {
-    "BPSLNAME": "ilyass",
-    "BPSFNAME": "Haddoud",
-    "BPSNUM": "132",
-    "BPSNAM": "fdadf",
-    "BPAINV": "350 bloc q2 ltq hadika tghat oued fes",
-    "BPAADD": "fdsf",
-    "BPSNUMTEL": "0676142729",
-    "BPSADDEML": "ilyass.haddoud@gmail.com",
-    "BPSPASSE": "ilyass20S@",
-    "BPSREM": "afdf",
-    "BPSGRU": "ònàlk",
-    "BPSRSK": "risque",
-    "BSGCOD": "fdfda",
-    "BPTNUM": "fdf",
-    "BPSNUMBPS": "fdf",
-    "BPSTYP": "fdfa"
+    "recipient":"ilyass.haddoud@gmail.com",
+    "messageBody":"hello world!",
+    "subject":"Test a sat"
 }

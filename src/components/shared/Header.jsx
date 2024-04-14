@@ -41,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <div className="header" style={{ marginBottom: "1rem" }}>
+    <div className="header" style={{ marginBottom: "2rem" }}>
       <AppBar position="sticky">
         <Container maxWidth="xl" sx={{ maxHeight: "10vh", bgcolor: "green" }}>
           <Toolbar disableGutters>

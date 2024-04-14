@@ -67,5 +67,5 @@ const generateInvoices = (count) => {
   return invoices;
 };
 
-const data = generateInvoices(20);
+const data = generateInvoices(200);
 export default data;
