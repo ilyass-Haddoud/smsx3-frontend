@@ -12,7 +12,7 @@ const AddClaim = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors,isSubmitting },
   } = useForm({resolver:yupResolver(addClaimSchema)});
   const dispatch = useDispatch();
 
@@ -22,6 +22,8 @@ const AddClaim = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  console.log(isSubmitting);
 
   return (
     <div>

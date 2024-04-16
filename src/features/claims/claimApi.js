@@ -9,9 +9,25 @@ const config = {
 };
 
 const addClaimRequest = createAsyncThunk(
-  "claim/getClaims",
+  "claim/addClaim",
   async (requestData) => {
       let url = "http://localhost:8080/claims/"+decodedToken.id+"/addClaim";
+      let body = requestData;
+    try {
+      const res = await axios.post(url, body,config);
+      const data = await res.data;
+      return data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  }
+);
+
+
+export const getClaimsRequest = createAsyncThunk(
+  "claim/getClaims",
+  async (requestData) => {
+      let url = "http://localhost:8080/claims/"+decodedToken.id+"/getClaims";
       let body = requestData;
     try {
       const res = await axios.post(url, body,config);

@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LogoutModal from "../logout/LogoutModal";
 
 const pages = [
   { name: "Home", url: "/" },
@@ -24,6 +25,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -166,7 +168,8 @@ const Header = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    {setting != "Logout" && <Typography textAlign="center"><Link to={setting} style={{textDecoration:"none",color:"black"}}>{setting}</Link></Typography>}
+                    {setting == "Logout" && <Typography textAlign="center"><Link onClick={() => setOpen(true)} style={{textDecoration:"none",color:"black"}}>{setting}</Link></Typography>}
                   </MenuItem>
                 ))}
               </Menu>
@@ -174,6 +177,7 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
+      <LogoutModal open={open} setOpen={setOpen}/>
     </div>
   );
 };
