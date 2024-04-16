@@ -1,33 +1,25 @@
 import React, { useState } from "react";
 import { Modal, Typography, Box, Button, TextField } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import addClaimSchema from "./addClaimValidation"
+import { useDispatch } from "react-redux";
+import addClaimRequest from "../../../features/claims/claimApi";
 
 const AddClaim = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [reclamationData, setReclamationData] = useState({
-    entete: "",
-    message: "",
-  });
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({resolver:yupResolver(addClaimSchema)});
+  const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     setOpenModal(true);
   };
-
   const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setReclamationData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Données de la réclamation :", reclamationData);
-    setReclamationData({ entete: "", message: "" });
     setOpenModal(false);
   };
 
@@ -54,27 +46,51 @@ const AddClaim = () => {
           <Typography variant="h6" gutterBottom>
             Formulaire de Réclamation
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Entête"
+          <form
+            onSubmit={handleSubmit((data) => {
+              dispatch(addClaimRequest(data));
+              handleCloseModal();
+              reset();
+            })}
+          >
+            <Controller
+              control={control}
               name="entete"
-              value={reclamationData.entete}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-              variant="outlined"
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <TextField
+                  label="Entête"
+                  name="entete"
+                  value={value}
+                  onChange={onChange}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                />
+                );
+              }}
             />
-            <TextField
-              label="Message"
+            <Controller
+              control={control}
               name="message"
-              value={reclamationData.message}
-              onChange={handleChange}
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              variant="outlined"
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <TextField
+                    label="Message"
+                    name="message"
+                    value={value}
+                    onChange={onChange}
+                    fullWidth
+                    multiline
+                    rows={4}
+                    margin="normal"
+                    variant="outlined"
+                  />
+                );
+              }}
             />
+           
+            
             <Button type="submit" variant="contained" color="primary">
               Soumettre
             </Button>

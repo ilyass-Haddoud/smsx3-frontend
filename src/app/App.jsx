@@ -5,13 +5,16 @@ import Register from "../components/register/Register";
 import Home from "../pages/Home";
 import Header from "../components/shared/Header";
 import NotFound from "../pages/NotFound";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const App = () => {
   return (
     <div className="app container">
       <Header />
       <Routes>
-        <Route element={<Home />} path="/" />
+        <Route element={<ProtectedRoute/>}>
+          <Route element={<Home />} path="/" />
+        </Route>
         <Route element={<Login />} path="auth/login" />
         <Route element={<Register />} path="auth/register" />
         <Route element={<NotFound />} path="*" />
