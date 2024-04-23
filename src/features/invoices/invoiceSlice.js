@@ -11,7 +11,12 @@ const initialState = {
 const InvoiceSlice = createSlice({
   name: "invoice",
   initialState,
-  extraReducers: (builder) => {
+  reducers:{
+    addInvoice:(state, action)=>{
+      state.newInvoice = action.payload;
+    }
+  },
+  extraReducers: (builder)=> {
     builder.addCase(addInvoiceRequest.fulfilled, (state, action) => {
       state.errors = null;
       state.isLoading = false;
@@ -46,5 +51,5 @@ const InvoiceSlice = createSlice({
   },
 });
 
-export const { setClaims } = InvoiceSlice.actions;
+export const { addInvoice } = InvoiceSlice.actions;
 export default InvoiceSlice.reducer;

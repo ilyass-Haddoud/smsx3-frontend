@@ -2,7 +2,6 @@ POST http://localhost:8080/mail/send
 Content-Type: application/json
 
 {
-    "recipient":"ilyass.haddoud@gmail.com",
     "messageBody":"hello world!",
     "subject":"Test a sat"
 }

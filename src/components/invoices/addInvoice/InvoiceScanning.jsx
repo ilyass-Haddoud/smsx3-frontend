@@ -8,6 +8,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
+import { addInvoice } from "../../../features/invoices/invoiceSlice";
+import { useDispatch } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -33,7 +35,9 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export default function InvoiceScanning({ open, setOpen }) {
-  const [isUploading, setIsUploading] = useState(false); // Nouvel état pour suivre l'état d'envoi de la requête
+  const dispatch = useDispatch();
+
+  const [isUploading, setIsUploading] = useState(false);
   const handleClose = () => setOpen(false);
   const {
     control,
@@ -54,7 +58,7 @@ export default function InvoiceScanning({ open, setOpen }) {
           },
         });
         const result = response.data;
-        console.log(result);
+        dispatch(addInvoice(result))
       } catch (error) {
         console.error("Error uploading file: ", error);
       } finally {
@@ -73,7 +77,10 @@ export default function InvoiceScanning({ open, setOpen }) {
       >
         <Box sx={{...style, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           {isUploading ? (
-            <CircularProgress color='success'/>
+            <>
+              <CircularProgress color='success' sx={{marginBottom:2}}/>
+              <p>Traitement en cours, veuillez patienter...</p>
+            </>
           ) : (
               <Button
                 component="label"

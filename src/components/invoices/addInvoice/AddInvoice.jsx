@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,30 +9,32 @@ import { Stack } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import InvoiceScanning from "./InvoiceScanning";
+import { useDispatch, useSelector } from "react-redux";
+import { addInvoice } from "../../../features/invoices/invoiceSlice";
 
 
 
-const MyButtonWithModal = () => {
-  const [openModal, setOpenModal] = useState(false);
+const AddInvoice = () => {
+  const [openModal, setOpenModal] = useState(true);
   const formDataKeys = {
-    numero_facture: "",
-    site_vente: "",
-    type: "",
-    reference: "",
-    date: "",
-    client_facture: "",
-    client_intitule: "",
-    client_commande: "",
-    tiers_payeur: "",
-    client_groupe: "",
-    etat: "",
-    devise: "",
-    debut_echeance: "",
-    type_paiement: "",
-    date_debut_periode: "",
-    date_fin_periode: "",
+    site_vente:"",
+    numero_facture:"",
+    type_facture:"",
+    numero_piece:"",
+    date:"",
+    fournisseur:"",
+    raison_sociale:"",
+    devise:"",
+    debut_echeance:"",
+    adresse:"",
+    condition_paiement:"",
+    etat_facture:"",
+    total_ttc:"",
     document: null,
   };
+
+  const newInvoice = useSelector(state => state.invoiceReducer.newInvoice);
+  const dispatch = useDispatch();
   
   const {
     control,
@@ -46,20 +48,21 @@ const MyButtonWithModal = () => {
   };
 
   const handleSubmitForm = async (data) => {
-    console.log(data.document);
-    const formData = new FormData();
-    formData.append("document", data.document); // Assuming 'document' is the name of the file field
-    try {
-      const response = await axios.post("http://127.0.0.1:5000/extract_fields", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      const result = response.data;
-      console.log(result);
-    } catch (error) {
-      console.error("Error uploading file: ", error);
-    }
+    // console.log(data.document);
+    // const formData = new FormData();
+    // formData.append("document", data.document); // Assuming 'document' is the name of the file field
+    // try {
+    //   const response = await axios.post("http://127.0.0.1:5000/extract_fields", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   const result = response.data;
+    //   console.log(result);
+    // } catch (error) {
+    //   console.error("Error uploading file: ", error);
+    // }
+    console.log(data);
   };
 
   const handleCloseModal = () => {
@@ -75,14 +78,22 @@ const MyButtonWithModal = () => {
   };
 
   const [openScanningModal,setOpenScanningModal] = useState(false);
+  useEffect(() => {
+    if(newInvoice) {
+      console.log(newInvoice);
+      reset(newInvoice)
+    };
+  },[newInvoice]);
 
   return (
     <div>
       <Button variant="contained" color="success" onClick={()=>setOpenScanningModal(true)}>
         Ajouter une facture
       </Button>
-      <InvoiceScanning open={openScanningModal} setOpen={setOpenScanningModal}/>
-      {/* <Modal
+      {!newInvoice && <InvoiceScanning open={openScanningModal} setOpen={setOpenScanningModal}/>}
+      {
+        newInvoice &&
+        <Modal
         open={openModal}
         onClose={handleCancelClick}
         style={{
@@ -107,16 +118,16 @@ const MyButtonWithModal = () => {
             {Object.keys(formDataKeys).map((key) => (
               <Grid key={key} item xs={6} sm={3}>
                 {key === "date" ||
-                key === "date_debut_periode" ||
-                key === "date_fin_periode" ? (
+                 key == "debut_echeance" ? (
                     <Controller
                       control={control}
-                      name={key.replace(/_(\w)/g, (_, w) => w.toUpperCase())}
+                      name={key}
                       render={({ field: { value, onChange } }) => {
+                        const formattedDate = value ? value.split('/').reverse().join('-') : '';
                         return (
                           <TextField
                           label={key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                          value={value}
+                          value={formattedDate}
                           onChange={onChange}
                           type="date"
                           fullWidth
@@ -130,7 +141,7 @@ const MyButtonWithModal = () => {
                 ) : key === "document" ? (
                   <Controller
                       control={control}
-                      name={key.replace(/_(\w)/g, (_, w) => w.toUpperCase())}
+                      name={key}
                       render={() => {
                         return (
                           <TextField
@@ -138,7 +149,7 @@ const MyButtonWithModal = () => {
                           accept=".pdf, .jpg, .jpeg, .png"
                           onChange={(e) => {
                             const file = e.target.files[0];
-                            reset({ ...formDataKeys, [key]: file });
+                            reset({ ...newInvoice, [key]: file });
                           }}
                           sx={{ mb: 2}}
                         />
@@ -147,7 +158,7 @@ const MyButtonWithModal = () => {
                 ) : (
                   <Controller
                       control={control}
-                      name={key.replace(/_(\w)/g, (_, w) => w.toUpperCase())}
+                      name={key}
                       render={({ field: { value, onChange } }) => {
                         return (
                           <TextField
@@ -173,9 +184,10 @@ const MyButtonWithModal = () => {
           </Stack>
           </form>
         </Box>
-      </Modal> */}
+        </Modal>
+      }
     </div>
   );
 };
 
-export default MyButtonWithModal;
+export default AddInvoice;

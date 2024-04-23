@@ -9,15 +9,23 @@
 
 #root {
   height: 100vh;
+  background-color: black;
+  color: white;
 }
 
 .container {
   max-width: 75rem;
   /* padding: 20px; */
   margin: 0 auto;
-  height: 90vh;
 }
 
 .app {
   height: 90vh;
+}
+
+.landing h1{
+  font-size: 72px;
+  background: -webkit-linear-gradient(0deg, rgba(4,205,105,1) 0%, rgba(39,156,254,1) 35%, rgba(143,73,254,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
