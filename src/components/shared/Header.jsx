@@ -15,13 +15,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoutModal from "../logout/LogoutModal";
 import sageIcon from "../../assets/SageLogo.png"
+import useJwt from "../../hooks/useJwt";
+import { fontSize } from "@mui/system";
 
 const pages = [
   { name: "Home", url: "/" },
   { name: "Login", url: "/auth/login" },
   { name: "Register", url: "/auth/register" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  {name:"Profile",url:"/profile"},
+  {name:"Account",url:"/account"},
+  {name:"Dashboard",url:"/dashboard"},
+  {name:"Logout",url:"/logout"}
+];
+
+const {token,decodedToken} = useJwt();
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -116,34 +125,39 @@ const Header = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    {setting != "Logout" && <Typography textAlign="center"><Link to={setting} style={{textDecoration:"none",color:"black"}}>{setting}</Link></Typography>}
-                    {setting == "Logout" && <Typography textAlign="center"><Link onClick={() => setOpen(true)} style={{textDecoration:"none",color:"black"}}>{setting}</Link></Typography>}
-                  </MenuItem>
-                ))}
-              </Menu>
+              { decodedToken.email &&
+                <div>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <MenuIcon sx={{color: "white"}} fontSize="large"/>
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        {setting.name != "Logout" && <Typography textAlign="center"><Link to={setting.url} style={{textDecoration:"none",color:"black"}}>{setting.name}</Link></Typography>}
+                        {setting.name == "Logout" && <Typography textAlign="center"><Link onClick={() => setOpen(true)} style={{textDecoration:"none",color:"black"}}>{setting.name}</Link></Typography>}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </div>
+              }
+              { !decodedToken.email && <Button sx={{color: "white",border: "2px solid white", borderRadius: "15px", fontSize: "12px" }}>Connection</Button>}
             </Box>
           </Toolbar>
         </Container>

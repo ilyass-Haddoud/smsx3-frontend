@@ -5,7 +5,7 @@ import Register from "../components/register/Register";
 import Home from "../pages/Home";
 import Header from "../components/shared/Header";
 import NotFound from "../pages/NotFound";
-import Landing from "../pages/landing";
+import Landing from "../pages/Landing";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const App = () => {

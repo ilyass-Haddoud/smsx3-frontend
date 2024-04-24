@@ -1,0 +1,26 @@
+.gethelp{
+    padding-block: 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-inline: 2rem;
+}
+
+.gethelp .info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.2rem;
+}
+
+.gethelp .info button{
+    background-color: rgb(0, 214, 57);
+    padding: 14px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.gethelp .image img{
+    width: 400px;
+}

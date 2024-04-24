@@ -1,0 +1,21 @@
+.didyouknow{
+    padding-block: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    gap: 3rem;
+    background-color: white;
+}
+
+.didyouknow .text{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 40%;
+}
+
+.didyouknow .img img{
+    height: 300px;
+    border-radius: 20px 0 0 20px;
+}

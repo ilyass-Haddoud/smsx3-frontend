@@ -1,0 +1,42 @@
+.footer{
+    padding-block: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .col{
+    display: flex;
+    gap: 2rem;
+}
+
+
+.footer .col div{
+    flex: 1;
+}
+
+.footer .col div ul{
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.footer .col div ul li:hover{
+    text-decoration: underline;
+    color: rgb(0, 214, 57);
+}
+
+.end{
+    padding-block: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.footer p:hover{
+    text-decoration: underline;
+    color: rgb(0, 214, 57);
+}
