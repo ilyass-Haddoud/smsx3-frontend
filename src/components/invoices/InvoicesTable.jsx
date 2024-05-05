@@ -93,7 +93,7 @@ const InvoicesTable = React.memo(() => {
       }}
     >
       <DataGrid
-        sx={{ maxHeight: "100%", width: "100%" }}
+        sx={{ maxHeight: "100%", width: "100%", color:"white",'.MuiDataGrid-topContainer':{color:"black"} }}
         rows={rows}
         columns={[
           {

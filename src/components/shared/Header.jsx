@@ -125,7 +125,7 @@ const Header = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              { decodedToken.email &&
+              { decodedToken && decodedToken.email &&
                 <div>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -157,7 +157,7 @@ const Header = () => {
                   </Menu>
                 </div>
               }
-              { !decodedToken.email && <Button sx={{color: "white",border: "2px solid white", borderRadius: "15px", fontSize: "12px" }}>Connection</Button>}
+              {decodedToken && !decodedToken.email && <Button sx={{color: "white",border: "2px solid white", borderRadius: "15px", fontSize: "12px" }}>Connection</Button>}
             </Box>
           </Toolbar>
         </Container>

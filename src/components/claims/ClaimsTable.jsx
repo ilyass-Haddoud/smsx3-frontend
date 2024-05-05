@@ -40,7 +40,7 @@ const ClaimsTable = React.memo(() => {
       {!reclamations.isLoading && 
         <div style={{ height: "60vh", width: "100%", display: "flex", flexDirection: "column", gap: "2rem" }}>
         <DataGrid
-          sx={{ maxHeight: "100%", width: "100%" }}
+          sx={{ maxHeight: "100%", width: "100%", color:"white", ".MuiDataGrid-topContainer": {color: "black"} }}
           rows={reclamations.claims ?? []}
           columns={[
             { field: "createdAt", headerName: "Date", flex: 1 },
