@@ -1,4 +1,4 @@
-import SideImage from "../../assets/login/supplier_illustration.jpg";
+import SideImage from "../../assets/login/supplier_illustration.png";
 import Sage from "../../assets/SageLogo.png";
 import { GoEye } from "react-icons/go";
 import { GoEyeClosed } from "react-icons/go";

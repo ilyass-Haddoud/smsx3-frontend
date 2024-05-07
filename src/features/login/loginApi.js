@@ -17,6 +17,7 @@ const loginRequest = createAsyncThunk(
     try {
       const res = await axios.post(url, body);
       const data = await res.data;
+      console.log(data);
       localStorage.setItem("token", data);
       return data;
     } catch (error) {

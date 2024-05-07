@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SideImage from "../../assets/login/supplier_illustration_register.avif";
+import SideImage from "../../assets/login/supplier_illustration_register.png";
 import Sage from "../../assets/SageLogo.png";
 import "./register.css";
 import BaseInfo from "./steps/BaseInfo";
