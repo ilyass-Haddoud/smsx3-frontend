@@ -27,28 +27,27 @@ function convertirEnObjetJSON(requeteSoap) {
         if (ligne.trim()) {  
             const champs = ligne.split(';');
             const objetJSON = {
-                "site_facturation": champs[1],
-                "type_facture": champs[2],
-                "numero_piece": champs[3],
-                "date_comptable": convertirDate(champs[4]),
-                "fournisseur": champs[5],
-                "raison_sociale": champs[6],
-                "bon_a_payer":bon_a_payer[champs[7]],
-                "motif": champs[8],
-                "date_facturation": convertirDate(champs[9]),
-                "numero_facture": champs[10],
-                "tiers_paye": champs[11],
-                "devise": champs[12],
-                "type_cours": type_cours[champs[13]],
-                "facture_origine": champs[14],
-                "ville": champs[15],
-                "premiere_echeance": convertirDate(champs[16]),
-                "condition_paiement": champs[17],
-                "regime_taxe": champs[18],
-                "total_ht": champs[19],
-                "total_taxe": champs[20],
-                "total_ttc": champs[21],
-                "etat":etat[champs[22]]
+              "site_facturation": champs[1],
+              "type_facture": champs[2],
+              "numero_piece": champs[3],
+              "date_comptable": convertirDate(champs[4]),
+              "fournisseur": champs[5],
+              "raison_sociale": champs[6],
+              "bon_a_payer":bon_a_payer[champs[7]],
+              "motif": champs[8],
+              "date_facturation": convertirDate(champs[9]),
+              "tiers_paye": champs[10],
+              "devise": champs[11],
+              "type_cours": type_cours[champs[12]],
+              "facture_origine": champs[13],
+              "ville": champs[14],
+              "premiere_echeance": convertirDate(champs[15]),
+              "condition_paiement": champs[16],
+              "regime_taxe": champs[17],
+              "total_ht": champs[18],
+              "total_taxe": champs[19],
+              "total_ttc": champs[20],
+              "etat":etat[champs[21]]
             };
             objetsFactures.push(objetJSON);
         }
@@ -86,6 +85,7 @@ export const getInvoicesRequest = createAsyncThunk(
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
+      console.log(data)
       console.log(convertirEnObjetJSON(data));
       return convertirEnObjetJSON(data);
     } catch (error) {
