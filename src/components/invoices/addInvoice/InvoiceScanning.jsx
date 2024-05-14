@@ -79,7 +79,7 @@ export default function InvoiceScanning({ open, setOpen }) {
           {isUploading ? (
             <>
               <CircularProgress color='success' sx={{marginBottom:2}}/>
-              <p>Traitement en cours, veuillez patienter...</p>
+              <p style={{color: "black"}}>Traitement en cours, veuillez patienter...</p>
             </>
           ) : (
               <Button

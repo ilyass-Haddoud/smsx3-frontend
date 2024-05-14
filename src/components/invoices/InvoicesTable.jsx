@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   GridRowModes,
   DataGrid,
@@ -19,13 +19,21 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import data from "../../data/invoices/data";
 import Grid from "@mui/material/Grid";
+import { getInvoicesRequest } from "../../features/invoices/invoiceApi";
+import { useDispatch, useSelector } from "react-redux";
 
 const InvoicesTable = React.memo(() => {
+  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [rows, setRows] = useState(data);
+  const factures = useSelector(state=>state.invoiceReducer);
   const [rowModesModel, setRowModesModel] = useState({});
   const [editedInvoice, setEditedInvoice] = useState(null);
   const [editedValues, setEditedValues] = useState({});
+
+  useEffect(() => {
+    dispatch(getInvoicesRequest())
+  },[])
 
   const handleRowEditStop = useCallback((params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -82,6 +90,10 @@ const InvoicesTable = React.memo(() => {
     }));
   }, []);
 
+  const getRowId = (row) =>{
+    return row.numero_piece;
+  }
+
   return (
     <div
       style={{
@@ -94,20 +106,21 @@ const InvoicesTable = React.memo(() => {
     >
       <DataGrid
         sx={{ maxHeight: "100%", width: "100%", color:"white",'.MuiDataGrid-topContainer':{color:"black"} }}
-        rows={rows}
+        rows={factures.invoices || []}
+        getRowId={getRowId}
         columns={[
           {
-            field: "numero_facture",
-            headerName: "Numéro de Facture",
+            field: "numero_piece",
+            headerName: "Numéro de pièce",
             flex: 1,
           },
           {
-            field: "client_facture",
-            headerName: "Client",
+            field: "fournisseur",
+            headerName: "Code fournisseur",
             flex: 1,
           },
           { field: "etat", headerName: "État", flex: 1 },
-          { field: "date", headerName: "Date", flex: 1 },
+          { field: "date_facturation", headerName: "Date facturation", flex: 1 },
           {
             field: "actions",
             type: "actions",
