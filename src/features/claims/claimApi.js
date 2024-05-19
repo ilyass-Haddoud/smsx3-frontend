@@ -39,4 +39,18 @@ export const getClaimsRequest = createAsyncThunk(
   }
 );
 
+export const getAllClaimsRequest = createAsyncThunk(
+  "claim/getAllClaims",
+  async () => {
+      let url = "http://localhost:8080/claims";
+    try {
+      const res = await axios.get(url,config);
+      const data = await res.data;
+      return data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  }
+);
+
 export default addClaimRequest;

@@ -4,7 +4,7 @@ import useJwt from  "../../hooks/useJwt"
 
 const bon_a_payer = {1:"attente",2:"litige",3:"avoir",4:"bon a payer"};
 const type_cours = {1:"cours du jour",2:"cours du mois",3:"cours moyen",4:"cours DEB",5:"cours CEE"};
-const etat = {1:"en attente",2:"a valider",3:"validée"};
+const etat = {1:"En attente",2:"A valider",3:"Validée"};
 
 function convertirDate(chaine) {
     if (chaine.length !== 8) {
@@ -85,8 +85,6 @@ export const getInvoicesRequest = createAsyncThunk(
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
-      console.log(data)
-      console.log(convertirEnObjetJSON(data));
       return convertirEnObjetJSON(data);
     } catch (error) {
       throw error.response.data;

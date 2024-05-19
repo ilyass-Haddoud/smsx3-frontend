@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import addClaimRequest, { getClaimsRequest } from "./claimApi";
+import addClaimRequest, { getAllClaimsRequest, getClaimsRequest } from "./claimApi";
 
 const initialState = {
     newClaim: null,
@@ -43,8 +43,23 @@ const ClaimSlice = createSlice({
       state.errors = null;
       state.claims = null;
     });
+    // get all claims
+    builder.addCase(getAllClaimsRequest.fulfilled, (state, action) => {
+      state.errors = null;
+      state.isLoading = false;
+      state.claims = action.payload;
+    });
+    builder.addCase(getAllClaimsRequest.rejected, (state, action) => {
+      state.errors = action.error.message;
+      state.isLoading = false;
+      state.claims = null;
+    });
+    builder.addCase(getAllClaimsRequest.pending, (state) => {
+      state.isLoading = true;
+      state.errors = null;
+      state.claims = null;
+    });
   },
 });
 
-export const { setClaims } = ClaimSlice.actions;
 export default ClaimSlice.reducer;

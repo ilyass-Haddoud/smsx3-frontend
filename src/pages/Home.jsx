@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import InvoicesTable from "../components/invoices/InvoicesTable";
 import AddInvoice from "../components/invoices/addInvoice/AddInvoice";
 import Claims from "../components/claims/Claims";
+import SuppliersTable from "../components/suppliers/SuppliersTable";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,18 +64,22 @@ export default function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Mes des factures" {...a11yProps(0)} />
-          <Tab label="Réclamations" {...a11yProps(1)} />
-          <Tab label="Deposer une facture" {...a11yProps(2)} />
+          <Tab label="Mes factures" {...a11yProps(0)} />
+          <Tab label="Liste de fournisseur" {...a11yProps(1)} />
+          <Tab label="Réclamations" {...a11yProps(2)} />
+          <Tab label="Deposer une facture" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <InvoicesTable />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Claims />
+        <SuppliersTable />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        <Claims />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <AddInvoice />
       </CustomTabPanel>
     </Box>

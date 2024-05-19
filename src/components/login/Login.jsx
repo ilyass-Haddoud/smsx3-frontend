@@ -12,6 +12,7 @@ import { setCredentials } from "../../features/login/loginSlice";
 import Otp from "../otp/Otp";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import loginRequest from "../../features/login/loginApi";
 
 const Login = () => {
   const [step, setStep] = useState(0);
@@ -32,6 +33,7 @@ const Login = () => {
       });
     }
   };
+
   useEffect(() => {
     checkErrorsAndNotify();
   }, [errors]);
@@ -46,6 +48,10 @@ const Login = () => {
         <div className="login_form">
           <form
             onSubmit={handleSubmit((data) => {
+              if(data.role != "fournisseur"){
+                dispatch(loginRequest(data));
+                return;
+              }
               dispatch(setCredentials(data));
               setStep(1);
             })}
@@ -79,10 +85,10 @@ const Login = () => {
             </div>
             <div className="form_input_group">
               <label>Sélectionnez votre rôle : </label>
-              <select {...register("role")} defaultValue="user">
-                <option value="admin">Admin </option>
-                <option value="supplier">Fournisseur</option>
-                <option value="user">Utilisateur</option>
+              <select {...register("role")} defaultValue="client">
+                <option value="administrateur">Admin </option>
+                <option value="fournisseur">Fournisseur</option>
+                <option value="client">Client</option>
               </select>
             </div>
             <button>Suivant</button>
@@ -91,10 +97,18 @@ const Login = () => {
               <p>Se souvenir de moi</p>
             </div>
             <footer>
-              Vous n'avez pas de compte ?
-              <strong>
-                <Link to={"/auth/register"}> S'inscrire</Link>
-              </strong>
+              <div>
+                Vous n'avez pas de compte ?
+                <strong>
+                  <Link to={"/auth/register"}> S'inscrire</Link>
+                </strong>
+              </div>
+              <div>
+                Mot de passe oublié ?
+                <strong>
+                  <Link to={"/forgot_password"}> Réinitialisation de mot de passe</Link>
+                </strong>
+                </div>
             </footer>
           </form>
         </div>

@@ -62,7 +62,6 @@ const AddInvoice = () => {
     // } catch (error) {
     //   console.error("Error uploading file: ", error);
     // }
-    console.log(data);
   };
 
   const handleCloseModal = () => {
@@ -80,7 +79,6 @@ const AddInvoice = () => {
   const [openScanningModal,setOpenScanningModal] = useState(false);
   useEffect(() => {
     if(newInvoice) {
-      console.log(newInvoice);
       reset(newInvoice)
     };
   },[newInvoice]);

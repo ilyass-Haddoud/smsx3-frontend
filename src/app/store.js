@@ -3,9 +3,13 @@ import loginReducer from "../features/login/loginSlice";
 import registerReducer from "../features/register/registerSlice";
 import claimReducer from "../features/claims/claimSlice";
 import invoiceReducer from "../features/invoices/invoiceSlice";
+import supplierReducer from "../features/suppliers/supplierSlice";
+import loggedSupplierReducer from "../features/loggedSupplier/loggedSupplierSlice";
+import passwordChangeReducer from "../features/passwordChange/passwordChangeSlice";
+
 
 const store = configureStore({
-  reducer: { loginReducer, registerReducer, claimReducer, invoiceReducer },
+  reducer: { loginReducer, registerReducer, claimReducer, invoiceReducer, supplierReducer, loggedSupplierReducer, passwordChangeReducer },
 });
 
 export default store;

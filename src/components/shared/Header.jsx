@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LogoutModal from "../logout/LogoutModal";
 import sageIcon from "../../assets/SageLogo.png"
@@ -19,10 +19,19 @@ import useJwt from "../../hooks/useJwt";
 import { fontSize } from "@mui/system";
 
 const pages = [
-  { name: "Home", url: "/" },
-  { name: "Login", url: "/auth/login" },
-  { name: "Register", url: "/auth/register" },
+  {name:"Présentation", url: "/"},
+  { name: "Acceuil", url: "" },
+  { name: "Connection", url: "/auth/login" },
+  { name: "Inscription", url: "/auth/register" },
 ];
+
+const connectdePages = [
+  {name:"Présentation", url: "/"},
+  { name: "Acceuil", url: "" },
+  { name: "Contactez-nous", url: "" },
+  { name: "Mes Tickets", url: "" },
+];
+
 const settings = [
   {name:"Profile",url:"/profile"},
   {name:"Account",url:"/account"},
@@ -111,17 +120,32 @@ const Header = () => {
             <Box
               sx={{ flexGrow: 1, gap: 15, display: { xs: "none", md: "flex" },justifyContent: "center" }}
             >
-              {pages.map((page) => (
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  key={page.name}
-                  to={page.url}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page.name}
-                </Link>
-              ))}
+              {!decodedToken &&
+                pages.map((page) => (
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    key={page.name}
+                    to={page.url}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page.name}
+                  </Link>
+                ))
+              }
+              {decodedToken && decodedToken.email &&
+                connectdePages.map((page) => (
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    key={page.name}
+                    to={page.url}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page.name}
+                  </Link>
+                ))
+              }
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -129,11 +153,11 @@ const Header = () => {
                 <div>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <MenuIcon sx={{color: "white"}} fontSize="large"/>
+                      <Avatar alt={decodedToken.email} src="/static/images/avatar/2.jpg" />
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{ mt: "45px",fontSize:"13px",textAlign:"center"}}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
@@ -148,8 +172,11 @@ const Header = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
+                    <p>{decodedToken.email}</p>
+                    <p style={{marginBottom:"10px"}}>{decodedToken.roles[0]}</p>
+                    <hr/>
                     {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <MenuItem sx={{width:"15em"}} key={setting} onClick={handleCloseUserMenu}>
                         {setting.name != "Logout" && <Typography textAlign="center"><Link to={setting.url} style={{textDecoration:"none",color:"black"}}>{setting.name}</Link></Typography>}
                         {setting.name == "Logout" && <Typography textAlign="center"><Link onClick={() => setOpen(true)} style={{textDecoration:"none",color:"black"}}>{setting.name}</Link></Typography>}
                       </MenuItem>

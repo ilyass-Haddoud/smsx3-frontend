@@ -7,6 +7,7 @@ const initialState = {
     password: "",
     role: "",
   },
+  loggedUser:null,
   isLoading: false,
   errors: null,
   token: "",

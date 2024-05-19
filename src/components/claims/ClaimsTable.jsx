@@ -4,13 +4,15 @@ import { Modal, Typography, Box, Button, TextField, Stack, CircularProgress } fr
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import Grid from "@mui/material/Grid";
 import { useDispatch, useSelector } from "react-redux";
-import { getClaimsRequest } from "../../features/claims/claimApi";
+import { getClaimsRequest, getAllClaimsRequest } from "../../features/claims/claimApi";
+import useJwt from "../../hooks/useJwt";
 
 const ClaimsTable = React.memo(() => {
   const dispatch = useDispatch();
   const reclamations = useSelector(state=>state.claimReducer);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedReclamation, setSelectedReclamation] = useState(null) 
+  const [selectedReclamation, setSelectedReclamation] = useState(null)
+  const {token, decodedToken} = useJwt();
 
   const handleDeleteClick = useCallback(()=>{},[]);
 
@@ -27,10 +29,17 @@ const ClaimsTable = React.memo(() => {
   }, []);
 
   useEffect(() => {
-    dispatch(getClaimsRequest())
+    if(decodedToken.role != "fournisseur"){
+      dispatch(getAllClaimsRequest());
+    }else{
+      dispatch(getClaimsRequest());
+    }
   },[])
 
+  
+
   return (
+    
     <>
       {reclamations.isLoading &&
         <Box sx={{ display: 'flex' }}>
@@ -42,27 +51,30 @@ const ClaimsTable = React.memo(() => {
         <DataGrid
           sx={{ maxHeight: "100%", width: "100%", color:"white", ".MuiDataGrid-topContainer": {color: "black"} }}
           rows={reclamations.claims ?? []}
-          columns={[
-            { field: "createdAt", headerName: "Date", flex: 1 },
-            { field: "entete", headerName: "Entête", flex: 1 },
-            { field: "message", headerName: "Message", flex: 1 },
-            { field: "etat", headerName: "État", flex: 1 },
-            {
-              field: "actions",
-              type: "actions",
-              headerName: "Actions",
-              cellClassName: "actions",
-              getActions: ({ id }) => [
-                <GridActionsCellItem
-                  key="delete"
-                  icon={<DeleteIcon />}
-                  label="Delete"
-                  onClick={handleDeleteClick(id)}
-                  color="inherit"
-                />,
-              ],
-            },
-          ]}
+          columns={
+            [
+              { field: "createdAt", headerName: "Date", flex: 1 },
+              { field: "supplier", headerName: "Fournisseur", flex: 1, valueGetter: supplier=>supplier.bpsnum },
+              { field: "entete", headerName: "Entête", flex: 1 },
+              { field: "message", headerName: "Message", flex: 1 },
+              { field: "etat", headerName: "État", flex: 1 },
+              {
+                field: "actions",
+                type: "actions",
+                headerName: "Actions",
+                cellClassName: "actions",
+                getActions: ({ id }) => [
+                  <GridActionsCellItem
+                    key="delete"
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={handleDeleteClick(id)}
+                    color="inherit"
+                  />,
+                ],
+              },
+            ]
+          }
           onRowClick={handleRowClick}
         />
         <Modal

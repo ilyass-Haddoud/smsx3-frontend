@@ -23,8 +23,6 @@ const AddClaim = () => {
     setOpenModal(false);
   };
 
-  console.log(isSubmitting);
-
   return (
     <div>
       <Button variant="contained" color="success" onClick={handleOpenModal}>
