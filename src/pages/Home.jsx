@@ -8,6 +8,7 @@ import InvoicesTable from "../components/invoices/InvoicesTable";
 import AddInvoice from "../components/invoices/addInvoice/AddInvoice";
 import Claims from "../components/claims/Claims";
 import SuppliersTable from "../components/suppliers/SuppliersTable";
+import { jwtDecode } from "jwt-decode";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,6 +45,8 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+  const token = localStorage.getItem("token");
+  const decodedToken = token && jwtDecode(token);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -64,10 +67,19 @@ export default function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Mes factures" {...a11yProps(0)} />
-          <Tab label="Liste de fournisseur" {...a11yProps(1)} />
-          <Tab label="Réclamations" {...a11yProps(2)} />
-          <Tab label="Deposer une facture" {...a11yProps(3)} />
+          <Tab label={decodedToken.roles[0] == "Administrateur" ? "Factures" : "Mes factures"} {...a11yProps(0)} />
+
+          {
+            decodedToken.roles[0] == "Administrateur" &&
+            <Tab label="Fournisseurs" {...a11yProps(1)} />
+          }
+
+          <Tab label={decodedToken.roles[0] == "Administrateur" ? "Réclamations" : "Mes réclamation"} {...a11yProps(2)} />
+          
+          {
+            decodedToken.roles[0] != "Administrateur" &&
+            <Tab label="Deposer une facture" {...a11yProps(3)} />
+          }
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

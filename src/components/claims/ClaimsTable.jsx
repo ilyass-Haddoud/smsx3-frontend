@@ -30,9 +30,9 @@ const ClaimsTable = React.memo(() => {
 
   useEffect(() => {
     if(decodedToken.role != "fournisseur"){
-      dispatch(getAllClaimsRequest());
+      dispatch(getAllClaimsRequest({token, decodedToken}));
     }else{
-      dispatch(getClaimsRequest());
+      dispatch(getClaimsRequest({token, decodedToken}));
     }
   },[])
 

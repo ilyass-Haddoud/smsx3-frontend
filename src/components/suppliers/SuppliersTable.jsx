@@ -25,6 +25,7 @@ import CancelIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import getSuppliersRequest,{ disableSupplier } from "../../features/suppliers/supplierApi";
 import { useDispatch, useSelector } from "react-redux";
+import useJwt from "../../hooks/useJwt"
 
 const SuppliersTable = () => {
   const dispatch = useDispatch();
@@ -34,10 +35,11 @@ const SuppliersTable = () => {
   const [rowModesModel, setRowModesModel] = useState({});
   const [editedSupplier, setEditedSupplier] = useState(null);
   const [editedValues, setEditedValues] = useState({});
+  const {token, decodedToken} = useJwt();
 
 
   useEffect(() => {
-    dispatch(getSuppliersRequest());
+    dispatch(getSuppliersRequest({token, decodedToken}));
   }, [dispatch]);
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const SuppliersTable = () => {
     const updatedRows = rows.map((row) =>
       row.bpsnum === editedSupplier.bpsnum ? { ...editedValues } : row
     );
-    dispatch(disableSupplier(updatedRows));
+    dispatch(disableSupplier({requestData:updatedRows,token,decodedToken}));
     setOpenModal(false);
   };
 

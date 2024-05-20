@@ -5,10 +5,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setIsLoggedIn } from '../../features/login/loginSlice';
+
 
 const LogoutModal = ({open,setOpen}) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     return (
         <Fragment>
         <Dialog
@@ -29,6 +34,7 @@ const LogoutModal = ({open,setOpen}) => {
             <Button onClick={()=>setOpen(false)}>Non</Button>
             <Button onClick={()=>{
                     localStorage.clear();
+                    dispatch(setIsLoggedIn(false));
                     navigate("/auth/login");
                     setOpen(false);
                 }} autoFocus>

@@ -1,18 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import useJwt from  "../../hooks/useJwt"
 
-const {token,decodedToken} = useJwt();
 
-const config = {
-  headers: { Authorization: `Bearer ${token}` }
-};
+
 
 const addClaimRequest = createAsyncThunk(
   "claim/addClaim",
-  async (requestData) => {
-      let url = "http://localhost:8080/claims/"+decodedToken.id+"/addClaim";
-      let body = requestData;
+  async ({requestData, token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/claims/"+decodedToken.id+"/addClaim";
+    let body = requestData;
     try {
       const res = await axios.post(url, body,config);
       const data = await res.data;
@@ -26,11 +25,13 @@ const addClaimRequest = createAsyncThunk(
 
 export const getClaimsRequest = createAsyncThunk(
   "claim/getClaims",
-  async (requestData) => {
-      let url = "http://localhost:8080/claims/"+decodedToken.id+"/getClaims";
-      let body = requestData;
+  async ({token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/claims/"+decodedToken.id+"/getClaims";
     try {
-      const res = await axios.post(url, body,config);
+      const res = await axios.post(url, config);
       const data = await res.data;
       return data;
     } catch (error) {
@@ -41,8 +42,11 @@ export const getClaimsRequest = createAsyncThunk(
 
 export const getAllClaimsRequest = createAsyncThunk(
   "claim/getAllClaims",
-  async () => {
-      let url = "http://localhost:8080/claims";
+  async ({token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/claims";
     try {
       const res = await axios.get(url,config);
       const data = await res.data;

@@ -7,16 +7,15 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LogoutModal from "../logout/LogoutModal";
 import sageIcon from "../../assets/SageLogo.png"
-import useJwt from "../../hooks/useJwt";
-import { fontSize } from "@mui/system";
+import { useSelector } from "react-redux";
+import { jwtDecode } from 'jwt-decode';
+
 
 const pages = [
   {name:"Présentation", url: "/"},
@@ -39,16 +38,21 @@ const settings = [
   {name:"Logout",url:"/logout"}
 ];
 
-const {token,decodedToken} = useJwt();
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [anchorElContact, setAnchorElContact] = useState(null);
 
+  const [open, setOpen] = useState(false);
+  const token = localStorage.getItem("token");
+  const decodedToken = token && jwtDecode(token);
+  const loginState = useSelector(state => state.loginReducer);
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -59,6 +63,14 @@ const Header = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenContactMenu = (event) => {
+    setAnchorElContact(event.currentTarget);
+  };
+
+  const handleCloseContactMenu = () => {
+    setAnchorElContact(null);
   };
 
   return (
@@ -120,7 +132,7 @@ const Header = () => {
             <Box
               sx={{ flexGrow: 1, gap: 15, display: { xs: "none", md: "flex" },justifyContent: "center" }}
             >
-              {!decodedToken &&
+              {!token &&
                 pages.map((page) => (
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
@@ -133,23 +145,32 @@ const Header = () => {
                   </Link>
                 ))
               }
-              {decodedToken && decodedToken.email &&
+              {token &&
                 connectdePages.map((page) => (
-                  <Link
-                    style={{ textDecoration: "none", color: "white" }}
-                    key={page.name}
-                    to={page.url}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {page.name}
-                  </Link>
+                  page.name === "Contactez-nous" ?
+                    <Link
+                      key={page.name}
+                      onClick={handleOpenContactMenu}
+                      style={{ textDecoration: "none", color: "white", cursor: "pointer", my: 2, display: "block" }}
+                    >
+                      {page.name}
+                    </Link>
+                    :
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      key={page.name}
+                      to={page.url}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page.name}
+                    </Link>
                 ))
               }
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              { decodedToken && decodedToken.email &&
+              { token &&
                 <div>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -184,12 +205,24 @@ const Header = () => {
                   </Menu>
                 </div>
               }
-              {decodedToken && !decodedToken.email && <Button sx={{color: "white",border: "2px solid white", borderRadius: "15px", fontSize: "12px" }}>Connection</Button>}
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
       <LogoutModal open={open} setOpen={setOpen}/>
+      <Menu
+        id="contact-menu"
+        anchorEl={anchorElContact}
+        open={Boolean(anchorElContact)}
+        onClose={handleCloseContactMenu}
+        MenuListProps={{
+          'aria-labelledby': 'contact-button',
+        }}
+        sx={{marginTop:2}}
+      >
+        <MenuItem onClick={handleCloseContactMenu}>Adresse email: contact@example.com</MenuItem>
+        <MenuItem onClick={handleCloseContactMenu}>Téléphone: 0123456789</MenuItem>
+      </Menu>
     </div>
   );
 };

@@ -7,16 +7,20 @@ import { useForm } from "react-hook-form";
 import loginSchema from "./loginValidation";
 import { useEffect, useState } from "react";
 import "./login.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../features/login/loginSlice";
 import Otp from "../otp/Otp";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginRequest from "../../features/login/loginApi";
+import { useNavigate } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
 
 const Login = () => {
   const [step, setStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
+  const loginState = useSelector(state => state.loginReducer);
   const dispatch = useDispatch();
   const {
     register,
@@ -35,16 +39,30 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (loginState.isLoggedIn) {
+      navigate('/dashboard');
+    }
+  }, [loginState.isLoggedIn, navigate]);
+
+  useEffect(() => {
     checkErrorsAndNotify();
   }, [errors]);
 
   return (
     <div className="login">
-      <div className="login_sidedImage">
+      {
+        <div className="login_sidedImage">
         <img src={Sage} alt="sage" />
         <img src={SideImage} alt="suppliers_image" />
-      </div>
-      {step == 0 && (
+        </div>
+      }
+      {
+        loginState.isLoading &&
+        <Box className="login_form" sx={{ display: 'flex' }}>
+          <CircularProgress color="success" />
+        </Box>
+      }
+      {!loginState.isLoading && step == 0 && (
         <div className="login_form">
           <form
             onSubmit={handleSubmit((data) => {
@@ -113,7 +131,7 @@ const Login = () => {
           </form>
         </div>
       )}
-      {step == 1 && (
+      {!loginState.isLoading && step == 1 && (
         <div className="otp_form">
           <Otp />
         </div>

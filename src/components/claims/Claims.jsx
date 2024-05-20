@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ClaimsTable from "./ClaimsTable";
 import AddClaim from "./addClaim/AddClaim";
+import { jwtDecode } from "jwt-decode";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,6 +43,8 @@ function a11yProps(index) {
 
 export default function Claims() {
   const [value, setValue] = React.useState(0);
+  const token = localStorage.getItem("token");
+  const decodedToken = token && jwtDecode(token);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -49,28 +52,36 @@ export default function Claims() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          textColor="inherit"
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "green",
-            },
-          }}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Mes réclamations" {...a11yProps(0)} />
-          <Tab label="Réclamer / Demander" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <ClaimsTable/>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <AddClaim/>
-      </CustomTabPanel>
+      {
+        decodedToken.roles[0] != "Administrateur" &&
+        <>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor="inherit"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "green",
+                },
+              }}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Mes réclamations" {...a11yProps(0)} />
+              <Tab label="Réclamer / Demander" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <ClaimsTable/>
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <AddClaim/>
+          </CustomTabPanel>
+        </>
+      }
+      {
+        decodedToken.roles[0] == "Administrateur" && <ClaimsTable/>
+      }
     </Box>
   );
 }

@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import useJwt from  "../../hooks/useJwt"
 
 const bon_a_payer = {1:"attente",2:"litige",3:"avoir",4:"bon a payer"};
 const type_cours = {1:"cours du jour",2:"cours du mois",3:"cours moyen",4:"cours DEB",5:"cours CEE"};
@@ -55,17 +54,15 @@ function convertirEnObjetJSON(requeteSoap) {
     return objetsFactures;
 }
 
-const {token,decodedToken} = useJwt();
-
-const config = {
-  headers: { Authorization: `Bearer ${token}` }
-};
 
 const addInvoiceRequest = createAsyncThunk(
   "invoice/addInvoice",
-  async (requestData) => {
-      let url = "http://localhost:8080/invoices/"+decodedToken.id+"/addInvoice";
-      let body = requestData;
+  async ({requestData, token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/invoices/"+decodedToken.id+"/addInvoice";
+    let body = requestData;
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
@@ -79,11 +76,13 @@ const addInvoiceRequest = createAsyncThunk(
 
 export const getInvoicesRequest = createAsyncThunk(
   "invoice/getInvoices",
-  async (requestData) => {
-      let url = "http://localhost:8080/invoices/call";
-      let body = requestData;
+  async ({token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/invoices/call";
     try {
-      const res = await axios.post(url, body, config);
+      const res = await axios.post(url, config);
       const data = await res.data;
       return convertirEnObjetJSON(data);
     } catch (error) {

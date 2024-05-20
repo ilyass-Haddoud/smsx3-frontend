@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import addClaimSchema from "./addClaimValidation"
 import { useDispatch } from "react-redux";
 import addClaimRequest from "../../../features/claims/claimApi";
+import useJwt from "../../../hooks/useJwt";
 
 const AddClaim = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -15,7 +16,7 @@ const AddClaim = () => {
     formState: { errors,isSubmitting },
   } = useForm({resolver:yupResolver(addClaimSchema)});
   const dispatch = useDispatch();
-
+  const {token, decodedToken } = useJwt();
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -48,7 +49,7 @@ const AddClaim = () => {
           </Typography>
           <form
             onSubmit={handleSubmit((data) => {
-              dispatch(addClaimRequest(data));
+              dispatch(addClaimRequest({requestData:data, token, decodedToken}));
               handleCloseModal();
               reset();
             })}

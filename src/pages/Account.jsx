@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import getSupplierInfoRequest from '../features/loggedSupplier/loggedSupplierApi';
 import changePasswordRequest from '../features/passwordChange/passwordChangeApi';
+import useJwt from "../hooks/useJwt";
 
 const darkTheme = createTheme({
   palette: {
@@ -30,6 +31,8 @@ const Account = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const {token, decodedToken} = useJwt();
 
   const {
     register,
@@ -88,13 +91,12 @@ const Account = () => {
   };
 
   const onSubmit = data => {
-    console.log(data);
-    dispatch(changePasswordRequest({currentPassword:data.currentPassword,newPassword:data.newPassword}))
+    dispatch(changePasswordRequest({requestData:{currentPassword:data.currentPassword,newPassword:data.newPassword}, token, decodedToken}))
     reset();
   };
 
   useEffect(() => {
-    dispatch(getSupplierInfoRequest());
+    dispatch(getSupplierInfoRequest({token, decodedToken}));
   }, [dispatch]);
 
   useEffect(() => {

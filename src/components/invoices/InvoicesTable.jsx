@@ -22,6 +22,7 @@ import data from "../../data/invoices/data";
 import Grid from "@mui/material/Grid";
 import { getInvoicesRequest } from "../../features/invoices/invoiceApi";
 import { useDispatch, useSelector } from "react-redux";
+import useJwt from "../../hooks/useJwt"
 
 const InvoicesTable = React.memo(() => {
   const dispatch = useDispatch();
@@ -31,9 +32,10 @@ const InvoicesTable = React.memo(() => {
   const [rowModesModel, setRowModesModel] = useState({});
   const [editedInvoice, setEditedInvoice] = useState(null);
   const [editedValues, setEditedValues] = useState({});
+  const {token, decodedToken} = useJwt();
 
   useEffect(() => {
-    dispatch(getInvoicesRequest())
+    dispatch(getInvoicesRequest({token, decodedToken}))
   },[])
 
   const handleRowEditStop = useCallback((params, event) => {
