@@ -5,11 +5,18 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { SidebarProvider } from "./context/SidebarContext.jsx";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <ThemeProvider>
+      <SidebarProvider>
+        <Router>
+          <App />
+        </Router>
+      </SidebarProvider>
+    </ThemeProvider>
   </Provider>
 );
