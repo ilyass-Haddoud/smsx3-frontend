@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import addInvoiceRequest, { getInvoicesRequest } from "./invoiceApi";
+import addInvoiceRequest, { getInvoiceByIdRequest, getInvoicesRequest, updateInvoiceRequest } from "./invoiceApi";
+
 
 const initialState = {
     newInvoice: null,
+    invoiceToUpdate: null,
     invoices:[],
     isLoading: false,
     errors: null,
@@ -17,10 +19,12 @@ const InvoiceSlice = createSlice({
     }
   },
   extraReducers: (builder)=> {
+
+    //add invoice
     builder.addCase(addInvoiceRequest.fulfilled, (state, action) => {
       state.errors = null;
       state.isLoading = false;
-      state.newInvoice = action.payload;
+      state.invoices.push(action.payload);
     });
     builder.addCase(addInvoiceRequest.rejected, (state, action) => {
       state.errors = action.error.message;
@@ -41,12 +45,50 @@ const InvoiceSlice = createSlice({
     builder.addCase(getInvoicesRequest.rejected, (state, action) => {
       state.errors = action.error.message;
       state.isLoading = false;
-      state.invoices = null;
+      state.invoices = [];
     });
     builder.addCase(getInvoicesRequest.pending, (state) => {
       state.isLoading = true;
       state.errors = null;
-      state.invoices = null;
+      state.invoices = [];
+    });
+
+    // get invoice by id
+    builder.addCase(getInvoiceByIdRequest.fulfilled, (state, action) => {
+      state.errors = null;
+      state.isLoading = false;
+      state.invoiceToUpdate = action.payload;
+    });
+    builder.addCase(getInvoiceByIdRequest.rejected, (state, action) => {
+      state.errors = action.error.message;
+      state.isLoading = false;
+      state.invoiceToUpdate = null;
+    });
+    builder.addCase(getInvoiceByIdRequest.pending, (state) => {
+      state.isLoading = true;
+      state.errors = null;
+      state.invoiceToUpdate = null;
+    });
+
+    // update invoices
+    builder.addCase(updateInvoiceRequest.fulfilled, (state, action) => {
+      state.errors = null;
+      state.isLoading = false;
+      state.invoices = state.invoices.map(invoice => {
+        if (invoice.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return invoice;
+        }
+      });
+    });
+    builder.addCase(updateInvoiceRequest.rejected, (state, action) => {
+      state.errors = action.error.message;
+      state.isLoading = false;
+    });
+    builder.addCase(updateInvoiceRequest.pending, (state) => {
+      state.isLoading = true;
+      state.errors = null;
     });
   },
 });

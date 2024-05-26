@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ClaimsTable from "./ClaimsTable";
 import AddClaim from "./addClaim/AddClaim";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,6 +45,7 @@ export default function Claims() {
   const [value, setValue] = React.useState(0);
   const token = localStorage.getItem("token");
   const decodedToken = token && jwtDecode(token);
+  const isAdmin = decodedToken && decodedToken.roles[0] === "Administrateur";
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -52,8 +53,7 @@ export default function Claims() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {
-        decodedToken.roles[0] != "Administrateur" &&
+      {!isAdmin && (
         <>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -72,16 +72,14 @@ export default function Claims() {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <ClaimsTable/>
+            <ClaimsTable />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <AddClaim/>
+            <AddClaim />
           </CustomTabPanel>
         </>
-      }
-      {
-        decodedToken.roles[0] == "Administrateur" && <ClaimsTable/>
-      }
+      )}
+      {isAdmin && <ClaimsTable />}
     </Box>
   );
 }

@@ -211,7 +211,7 @@ const SuppliersTable = () => {
                 p: 2,
               }}
             >
-              <Typography sx={{ marginBottom: "1rem",color:"black" }} variant="h6" gutterBottom>
+              <Typography sx={{ marginBottom: "2rem",color:"black" }} variant="h6" gutterBottom>
                 Modifier le fournisseur
               </Typography>
               {editedSupplier && (

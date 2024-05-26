@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import {
-  GridRowModes,
   DataGrid,
   GridActionsCellItem,
-  GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import {
   Modal,
@@ -15,36 +13,45 @@ import {
   CircularProgress
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import CancelIcon from "@mui/icons-material/Close";
-import data from "../../data/invoices/data";
+import ExpandIcon from '@mui/icons-material/Expand';
 import Grid from "@mui/material/Grid";
 import { getInvoicesRequest } from "../../features/invoices/invoiceApi";
 import { useDispatch, useSelector } from "react-redux";
-import useJwt from "../../hooks/useJwt"
+import {jwtDecode} from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+
+
+const etats = {
+  1 : "En attente",
+  2 : "A validée",
+  3 : "Validée",
+  4 : "Transmise au service metier",
+  5 : "Transmise au service finances et comptabilité",
+  6 : "En attente d'information",
+  7 : "Rejetée par le service metier"
+}
 
 const InvoicesTable = React.memo(() => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
-  const [rows, setRows] = useState(data);
+
   const factures = useSelector(state=>state.invoiceReducer);
-  const [rowModesModel, setRowModesModel] = useState({});
+
   const [editedInvoice, setEditedInvoice] = useState(null);
   const [editedValues, setEditedValues] = useState({});
-  const {token, decodedToken} = useJwt();
+  const navigate = useNavigate();
+
+
+  const token = localStorage.getItem("token");
+  const decodedToken = token && jwtDecode(token);
+  const isAdmin = decodedToken && decodedToken.roles[0] === "Administrateur";
+
 
   useEffect(() => {
-    dispatch(getInvoicesRequest({token, decodedToken}))
-  },[])
-
-  const handleRowEditStop = useCallback((params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
+    dispatch(getInvoicesRequest({ token, decodedToken }));
   }, []);
-
-  const handleEditClick = useCallback(
+ 
+  const handleShowClick = useCallback(
     (invoice) => () => {
       setEditedInvoice(invoice);
       setEditedValues(invoice.row);
@@ -53,36 +60,18 @@ const InvoicesTable = React.memo(() => {
     []
   );
 
-  const handleSaveClick = useCallback(() => {
-    const updatedRows = rows.map((row) =>
-      row.id === editedInvoice.row.id ? editedValues : row
-    );
-    setRows(updatedRows);
-    setOpenModal(false);
-  }, [rows, editedInvoice, editedValues]);
+  const handleSaveClick = () => {
+    
+  }
 
-  const handleDeleteClick = useCallback(
-    (id) => () => {
-      setRows(rows.filter((row) => row.id !== id));
+  const handleEditClick = useCallback((id) => () => {
+      navigate(`/invoices/${id}`);
     },
-    [rows]
+    [navigate]
   );
 
   const handleCancelClick = useCallback(() => {
     setOpenModal(false);
-  }, []);
-
-  const processRowUpdate = useCallback(
-    (newRow) => {
-      const updatedRow = { ...newRow, isNew: false };
-      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-      return updatedRow;
-    },
-    [rows]
-  );
-
-  const handleRowModesModelChange = useCallback((newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
   }, []);
 
   const handleInputChange = useCallback((e) => {
@@ -94,7 +83,7 @@ const InvoicesTable = React.memo(() => {
   }, []);
 
   const getRowId = (row) =>{
-    return row.numero_piece;
+    return row.id;
   }
 
   return (
@@ -121,73 +110,43 @@ const InvoicesTable = React.memo(() => {
             getRowId={getRowId}
             columns={[
               {
-                field: "numero_piece",
+                field: "numeroPiece",
                 headerName: "Numéro de pièce",
                 flex: 1,
               },
               {
-                field: "fournisseur",
+                field: "tiers",
                 headerName: "Code fournisseur",
                 flex: 1,
               },
-              { field: "etat", headerName: "État", flex: 1 },
-              { field: "date_facturation", headerName: "Date facturation", flex: 1 },
+              { field: "etat", headerName: "État", flex: 1, valueGetter:(etat)=>etats[etat] },
+              { field: "dateComptable", headerName: "Date comptable", flex: 1 },
               {
                 field: "actions",
                 type: "actions",
                 headerName: "Actions",
                 cellClassName: "actions",
                 getActions: ({ id, ...invoice }) => {
-                  const isInEditMode =
-                    rowModesModel[id]?.mode === GridRowModes.Edit;
-
-                  if (isInEditMode) {
-                    return [
-                      <GridActionsCellItem
-                        key="save"
-                        icon={<SaveIcon />}
-                        label="Save"
-                        sx={{
-                          color: "primary.main",
-                        }}
-                        onClick={handleSaveClick}
-                      />,
-                      <GridActionsCellItem
-                        key="cancel"
-                        icon={<CancelIcon />}
-                        label="Cancel"
-                        className="textPrimary"
-                        onClick={handleCancelClick}
-                        color="inherit"
-                      />,
-                    ];
-                  }
-
                   return [
                     <GridActionsCellItem
-                      key="edit"
+                      key="show"
                       icon={<EditIcon />}
-                      label="Edit"
+                      label="show"
                       className="textPrimary"
-                      onClick={handleEditClick(invoice)}
+                      onClick={handleShowClick(invoice)}
                       color="inherit"
                     />,
                     <GridActionsCellItem
-                      key="delete"
-                      icon={<DeleteIcon />}
-                      label="Delete"
-                      onClick={handleDeleteClick(id)}
+                      key="edit"
+                      icon={<ExpandIcon />}
+                      label="Edit"
+                      onClick={handleEditClick(id)}
                       color="inherit"
                     />,
                   ];
                 },
               },
             ]}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
             rowsPerPageOptions={[10, 20, 30]}
           />
           <Modal
@@ -207,119 +166,75 @@ const InvoicesTable = React.memo(() => {
                 p: 2,
               }}
             >
-              <Typography sx={{ marginBottom: "2rem" }} variant="h6" gutterBottom>
-                Modifier la Facture
+              <Typography sx={{ marginBottom: "2rem", color:"black" }} variant="h6" gutterBottom>
+                Afficher la Facture
               </Typography>
               {editedInvoice && (
                 <Grid container spacing={2}>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Numéro de Facture"
-                      name="numero_facture"
-                      value={editedValues.numero_facture}
+                      label="Site"
+                      name="site"
+                      value={editedValues.site}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Site de vente"
-                      name="site_vente"
-                      value={editedValues.site_vente}
+                      label="Type de facture"
+                      name="typeFacture"
+                      value={editedValues.typeFacture}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Type"
-                      name="type"
-                      value={editedValues.type}
+                      label="Numéro de pièce"
+                      name="numeroPiece"
+                      value={editedValues.numeroPiece}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Référence"
-                      name="reference"
-                      value={editedValues.reference}
+                      label="Date comptable"
+                      name="dateComptable"
+                      value={editedValues.dateComptable}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Date"
-                      name="date"
-                      value={editedValues.date}
+                      label="Tiers"
+                      name="tiers"
+                      value={editedValues.tiers}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Client"
-                      name="client_facture"
-                      value={editedValues.client_facture}
+                      label="Collectif"
+                      name="collectif"
+                      value={editedValues.collectif}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      label="Intitulé du client"
-                      name="client_intitule"
-                      value={editedValues.client_intitule}
-                      fullWidth
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      label="Commande du client"
-                      name="client_commande"
-                      value={editedValues.client_commande}
-                      fullWidth
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      label="Tiers payeur"
-                      name="tiers_payeur"
-                      value={editedValues.tiers_payeur}
-                      fullWidth
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      label="Groupe client"
-                      name="client_groupe"
-                      value={editedValues.client_groupe}
-                      fullWidth
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      label="État"
-                      name="etat"
-                      value={editedValues.etat}
-                      fullWidth
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
@@ -330,66 +245,105 @@ const InvoicesTable = React.memo(() => {
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Début échéance"
-                      name="debut_echeance"
-                      value={editedValues.debut_echeance}
+                      label="Bon à payer"
+                      name="bonAPayer"
+                      value={editedValues.bonAPayer}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Type de paiement"
-                      name="type_paiement"
-                      value={editedValues.type_paiement}
+                      label="Document origine"
+                      name="documentOrigine"
+                      value={editedValues.documentOrigine}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Date de début de période"
-                      name="date_debut_periode"
-                      value={editedValues.date_debut_periode}
+                      label="Date origine"
+                      name="dateOrigine"
+                      value={editedValues.dateOrigine}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Date de fin de période"
-                      name="date_fin_periode"
-                      value={editedValues.date_fin_periode}
+                      label="Référence interne"
+                      name="referenceInterne"
+                      value={editedValues.referenceInterne}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      label="Document"
-                      name="document"
-                      value={editedValues.document}
+                      label="Total HT"
+                      name="totalHTLignes"
+                      value={editedValues.totalHTLignes}
                       fullWidth
                       onChange={handleInputChange}
                       sx={{ mb: 2 }}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={3}>
+                    <TextField
+                      label="Total taxes"
+                      name="totalTaxes"
+                      value={editedValues.totalTaxes}
+                      fullWidth
+                      onChange={handleInputChange}
+                      sx={{ mb: 2 }}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={3}>
+                    <TextField
+                      label="Montant TTC"
+                      name="montantTTC"
+                      value={editedValues.montantTTC}
+                      fullWidth
+                      onChange={handleInputChange}
+                      sx={{ mb: 2 }}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={3}>
+                    <TextField
+                      label="Status"
+                      name="etat"
+                      value={editedValues.etat}
+                      fullWidth
+                      onChange={handleInputChange}
+                      sx={{ mb: 2 }}
+                      disabled
                     />
                   </Grid>
                 </Grid>
               )}
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="info" onClick={handleSaveClick}>
+                {/* <Button variant="contained" color="info" onClick={handleSaveClick}>
                   Modifier
-                </Button>
+                </Button> */}
                 <Button variant="outlined" color="info" onClick={handleCancelClick}>
-                  Annuler
+                  Fermer
                 </Button>
               </Stack>
             </Box>

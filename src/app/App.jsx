@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import Header from "../components/shared/Header";
 import NotFound from "../pages/NotFound";
 import Landing from "../pages/Landing";
+import Invoice from "../pages/Invoice";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Account from "../pages/Account";
 import ForgotPassword from "../pages/ForgotPassword";
@@ -23,6 +24,7 @@ const App = () => {
         <Route element={<Login />} path="auth/login" />
         <Route element={<Register />} path="auth/register" />
         <Route element={<Account />} path="account" />
+        <Route element={<Invoice />} path="/invoices/:id" />
         <Route element={<ForgotPassword/>} path="/forgot_password"/>
         <Route element={<ResetPassword/>} path="/reset_password"/>
         <Route element={<NotFound />} path="*" />
