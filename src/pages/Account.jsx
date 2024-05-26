@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, Modal, Box, Typography, Grid, createTheme, ThemeProvider, CssBaseline, CircularProgress } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { TextField, Button, Modal, Box, Typography, Grid, ThemeProvider, CssBaseline, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import getSupplierInfoRequest from '../features/loggedSupplier/loggedSupplierApi';
 import changePasswordRequest from '../features/passwordChange/passwordChangeApi';
 import useJwt from "../hooks/useJwt";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#121212',
-      paper: '#1e1e1e',
-    },
-    text: {
-      primary: '#ffffff',
-      secondary: grey[500],
-    },
-  },
-});
+import { createTheme } from '@mui/material/styles';
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -32,7 +18,7 @@ const Account = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const {token, decodedToken} = useJwt();
+  const { token, decodedToken } = useJwt();
 
   const {
     register,
@@ -85,29 +71,30 @@ const Account = () => {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '1px solid #000',
     boxShadow: 24,
     p: 4,
   };
 
-  const onSubmit = data => {
-    dispatch(changePasswordRequest({requestData:{currentPassword:data.currentPassword,newPassword:data.newPassword}, token, decodedToken}))
+  const onSubmit = async (data) => {
+    await dispatch(changePasswordRequest({ requestData: { currentPassword: data.currentPassword, newPassword: data.newPassword }, token, decodedToken }));
     reset();
+    handleClose();
   };
 
   useEffect(() => {
-    dispatch(getSupplierInfoRequest({token, decodedToken}));
+    dispatch(getSupplierInfoRequest({ token, decodedToken }));
   }, [dispatch]);
 
   useEffect(() => {
     checkErrorsAndNotify();
-  }, [errors, passwordChangeState.errors,passwordChangeState.success]);
+  }, [errors, passwordChangeState.errors, passwordChangeState.success]);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={createTheme()}>
       <CssBaseline />
-      <div style={{ backgroundColor: darkTheme.palette.background.default, minHeight: '100vh', padding: '20px' }}>
-        <Typography variant="h4" component="h1" gutterBottom style={{ color: darkTheme.palette.text.primary }}>
+      <div style={{ minHeight: '100vh', padding: '20px' }}>
+        <Typography variant="h4" component="h1" gutterBottom>
           Information de compte
         </Typography>
 
@@ -126,10 +113,6 @@ const Account = () => {
                   value={supplier[key]}
                   InputProps={{
                     readOnly: true,
-                    style: { color: darkTheme.palette.text.primary },
-                  }}
-                  InputLabelProps={{
-                    style: { color: darkTheme.palette.text.secondary },
                   }}
                   variant="outlined"
                   disabled
@@ -151,7 +134,7 @@ const Account = () => {
             </Typography>
             {
               passwordChangeState.isLoading &&
-              <Box sx={{ display: 'flex',marginTop:4 }}>
+              <Box sx={{ display: 'flex', marginTop: 4 }}>
                 <CircularProgress color="success" />
               </Box>
             }
@@ -167,9 +150,6 @@ const Account = () => {
                   {...register('currentPassword', { required: 'Ce champ est requis' })}
                   error={!!errors.currentPassword}
                   helperText={errors.currentPassword ? errors.currentPassword.message : ''}
-                  InputLabelProps={{
-                    style: { color: darkTheme.palette.text.secondary },
-                  }}
                 />
                 <TextField
                   fullWidth
@@ -180,9 +160,6 @@ const Account = () => {
                   {...register('newPassword', { required: 'Ce champ est requis' })}
                   error={!!errors.newPassword}
                   helperText={errors.newPassword ? errors.newPassword.message : ''}
-                  InputLabelProps={{
-                    style: { color: darkTheme.palette.text.secondary },
-                  }}
                 />
                 <TextField
                   fullWidth
@@ -190,22 +167,19 @@ const Account = () => {
                   type="password"
                   margin="normal"
                   variant="outlined"
-                  {...register('confirmNewPassword', { 
+                  {...register('confirmNewPassword', {
                     required: 'Ce champ est requis',
                     validate: value => value === watch('newPassword') || 'Les mots de passe ne correspondent pas'
                   })}
                   error={!!errors.confirmNewPassword}
                   helperText={errors.confirmNewPassword ? errors.confirmNewPassword.message : ''}
-                  InputLabelProps={{
-                    style: { color: darkTheme.palette.text.secondary },
-                  }}
                 />
                 <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
                   Envoyer
                 </Button>
               </Box>
             }
-            
+
           </Box>
         </Modal>
       </div>

@@ -313,10 +313,10 @@ const AddInvoice = () => {
                   )
                 ))}
               </Grid>
-              <Typography variant="h6" gutterBottom>
-                Items
+              <Typography variant="h7" gutterBottom>
+                Articles :
               </Typography>
-              <Box sx={{ height: 400, width: '100%', mb: 2 }}>
+              <Box sx={{ height: 400, width: '100%', mb: 2, mt: 1 }}>
                 <DataGrid
                   rows={fields}
                   columns={columns}
@@ -326,8 +326,8 @@ const AddInvoice = () => {
                 />
               </Box>
               <Button
-                variant="outlined"
-                color="primary"
+                variant="contained"
+                color="success"
                 onClick={() => append({
                   code: uuidv4(),
                   origineLigne: "",
@@ -347,19 +347,20 @@ const AddInvoice = () => {
                   texteLigne91:"",
                   texteLigne92: ""
                 })}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2, mr: 2 }}
               >
                 Ajouter un article
               </Button>
               <Button
-                variant="outlined"
-                color="secondary"
+                variant="contained"
+                color="error"
                 onClick={() => remove(fields.length - 1)}
                 sx={{ mb: 2 }}
               >
                 Supprimer le dernier article
               </Button>
-              <Stack direction="row" spacing={1}>
+              <hr/>
+              <Stack direction="row" spacing={1} marginTop={2}>
                 <Button variant="contained" color="info" type="submit">
                   Ajouter
                 </Button>

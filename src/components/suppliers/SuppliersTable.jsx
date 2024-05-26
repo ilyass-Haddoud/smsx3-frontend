@@ -120,7 +120,7 @@ const SuppliersTable = () => {
           }}
         >
           <DataGrid
-            sx={{ maxHeight: "100%", width: "100%", color: "white", '.MuiDataGrid-topContainer': { color: "black" } }}
+            sx={{ maxHeight: "100%", width: "100%"}}
             rows={rows}
             getRowId={getRowId}
             columns={[

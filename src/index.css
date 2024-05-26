@@ -7,10 +7,10 @@
   font-family: "Poppins", sans-serif;
 }
 
-html {
+/* html {
   background-color: black;
   color: white;
-}
+} */
 
 .container {
   max-width: 75rem;
@@ -22,4 +22,3 @@ html {
 /* .app {
   height: 100%;
 } */
-

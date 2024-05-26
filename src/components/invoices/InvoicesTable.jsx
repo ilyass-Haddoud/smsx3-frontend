@@ -105,7 +105,7 @@ const InvoicesTable = React.memo(() => {
           }}
         >
           <DataGrid
-            sx={{ maxHeight: "100%", width: "100%", color:"white",'.MuiDataGrid-topContainer':{color:"black"} }}
+            sx={{ maxHeight: "100%", width: "100%"}}
             rows={factures.invoices || []}
             getRowId={getRowId}
             columns={[

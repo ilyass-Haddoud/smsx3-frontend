@@ -147,14 +147,14 @@ const Invoice = () => {
       headerName: 'Edit',
       renderCell: (params) => (
         <IconButton onClick={() => handleEditClick(params.row)}>
-          <EditIcon sx={{color: 'white'}}/>
+          <EditIcon />
         </IconButton>
       ),
     },
   ];
 
   return (
-    <Box sx={{ p: 3, backgroundColor: 'grey', minHeight: '100vh' }}>
+    <Box sx={{ p: 3, minHeight: '100vh' }}>
       {
         sageInvoiceState.adding && toast.info("Sending to Sage x3.", {
           theme: "colored",
@@ -190,8 +190,8 @@ const Invoice = () => {
       {
         !invoiceState.isLoading && !invoiceState.errors &&
         <>
-          <Typography variant="h4" gutterBottom color="white">Détails de facture</Typography>
-          <Typography variant="h5" gutterBottom mt={4} color="white">Général</Typography>
+          <Typography variant="h4" gutterBottom>Détails de facture</Typography>
+          <Typography variant="h5" gutterBottom mt={4}>Général</Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
               <TextField
@@ -201,8 +201,6 @@ const Invoice = () => {
                 name="site"
                 value={invoiceData.site}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -213,8 +211,6 @@ const Invoice = () => {
                 name="typeFacture"
                 value={invoiceData.typeFacture}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -225,8 +221,6 @@ const Invoice = () => {
                 name="numeroPiece"
                 value={invoiceData.numeroPiece}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -237,8 +231,6 @@ const Invoice = () => {
                 name="dateComptable"
                 value={invoiceData.dateComptable}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -248,9 +240,7 @@ const Invoice = () => {
                 label="Tiers"
                 name="tiers"
                 value={invoiceData.tiers}
-                onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
+                onChange={handleInputChange}               
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -261,8 +251,6 @@ const Invoice = () => {
                 name="collectif"
                 value={invoiceData.collectif}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -273,8 +261,6 @@ const Invoice = () => {
                 name="devise"
                 value={invoiceData.devise}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -285,8 +271,6 @@ const Invoice = () => {
                 name="bonAPayer"
                 value={invoiceData.bonAPayer}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -297,8 +281,6 @@ const Invoice = () => {
                 name="documentOrigine"
                 value={invoiceData.documentOrigine}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -309,8 +291,6 @@ const Invoice = () => {
                 name="dateOrigine"
                 value={invoiceData.dateOrigine}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -321,8 +301,6 @@ const Invoice = () => {
                 name="referenceInterne"
                 value={invoiceData.referenceInterne}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -333,8 +311,6 @@ const Invoice = () => {
                 name="commentaires0"
                 value={invoiceData.commentaires0}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -345,8 +321,6 @@ const Invoice = () => {
                 name="commentaires1"
                 value={invoiceData.commentaires1}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -357,8 +331,6 @@ const Invoice = () => {
                 name="commentaires2"
                 value={invoiceData.commentaires2}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -369,8 +341,6 @@ const Invoice = () => {
                 name="totalHTLignes"
                 value={invoiceData.totalHTLignes}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -381,8 +351,6 @@ const Invoice = () => {
                 name="totalTaxes"
                 value={invoiceData.totalTaxes}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -393,28 +361,17 @@ const Invoice = () => {
                 name="montantTTC"
                 value={invoiceData.montantTTC}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <FormControl fullWidth margin="normal">
-                <InputLabel style={{ color: 'white' }}>État</InputLabel>
+                <InputLabel>État</InputLabel>
                 <Select
                   label="État"
                   name="etat"
                   // disabled={!isAdmin}
                   value={invoiceData.etat}
                   onChange={handleInputChange}
-                  style={{ color: 'white' }}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        backgroundColor: '#424242', 
-                        color: 'white'
-                      }
-                    }
-                  }}
                 >
                   {Object.entries(etats).map(([key, value]) => (
                     <MenuItem key={key} value={key}>
@@ -432,8 +389,6 @@ const Invoice = () => {
                 name="texteEntete71"
                 value={invoiceData.texteEntete71}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -444,8 +399,6 @@ const Invoice = () => {
                 name="texteEntete72"
                 value={invoiceData.texteEntete72}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -456,8 +409,6 @@ const Invoice = () => {
                 name="textePied81"
                 value={invoiceData.textePied81}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -468,34 +419,17 @@ const Invoice = () => {
                 name="textePied82"
                 value={invoiceData.textePied82}
                 onChange={handleInputChange}
-                InputLabelProps={{ style: { color: 'white' } }}
-                InputProps={{ style: { color: 'white' } }}
               />
             </Grid>
           </Grid>
 
-          <Typography variant="h5" gutterBottom mt={4} color="white">Articles</Typography>
+          <Typography variant="h5" gutterBottom mt={4}>Articles</Typography>
           <Box sx={{ height: 400, width: '100%' }}>
             <DataGrid
               rows={invoiceData.items || []}
               columns={columns}
               pageSize={5}
               rowsPerPageOptions={[5]}
-              sx={{
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: 'white',
-                  color: 'black',
-                },
-                '& .MuiDataGrid-cell': {
-                  color: 'white',
-                },
-                '& .MuiDataGrid-footerContainer': {
-                  backgroundColor: 'white',
-                  color: 'black',
-                },
-                backgroundColor: 'black',
-                borderColor: 'white',
-              }}
             />
           </Box>
 
