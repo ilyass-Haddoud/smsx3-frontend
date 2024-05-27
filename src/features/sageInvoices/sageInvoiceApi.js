@@ -100,11 +100,11 @@ function toCSV(jsonData) {
 
 export const getInvoicesFromSageRequest = createAsyncThunk(
   "sageInvoice/getInvoicesFromSageRequest",
-  async ({token, decodedToken}) => {
+  async ({requestData,token, decodedToken}) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     };
-    let url = "http://localhost:8080/invoices/call";
+    let url = "http://localhost:8080/invoices/call/"+requestData;
     try {
       const res = await axios.post(url, config);
       const data = await res.data;
@@ -126,14 +126,12 @@ export const addInvoiceToSageRequest = createAsyncThunk(
     };
     let url = "http://localhost:8080/invoices/sage/addInvoice";
     let body = toCSV([requestData])
-    console.log(body);
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
       console.log(data);
       return data;
     } catch (error) {
-      console.log(error);
       throw error.response.data;
     }
   }

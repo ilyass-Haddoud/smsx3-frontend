@@ -75,8 +75,14 @@ const Header = () => {
 
   return (
     <div className="header" style={{ marginBottom: "2rem"}}>
-      <AppBar position="sticky">
-        <Container maxWidth="xl" sx={{ maxHeight: "10vh", bgcolor: "black", borderRadius: "15px" }}>
+      <AppBar
+        position="sticky"
+        sx={{
+          backgroundColor: "black",
+          borderRadius: "15px",
+        }}
+      >
+        <Container maxWidth="xl" sx={{ maxHeight: "10vh", borderRadius: "15px" }}>
           <Toolbar disableGutters>
             <Box
               component="img"

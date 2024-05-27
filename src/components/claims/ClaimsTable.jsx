@@ -49,7 +49,10 @@ const ClaimsTable = React.memo(() => {
       {!reclamations.isLoading && 
         <div style={{ height: "60vh", width: "100%", display: "flex", flexDirection: "column", gap: "2rem" }}>
         <DataGrid
-          sx={{ maxHeight: "100%", width: "100%" }}
+          sx={{ maxHeight: "100%", width: "100%",'& .MuiDataGrid-columnHeader ,.MuiDataGrid-scrollbarFiller': {
+            backgroundColor: '#bebecb',
+            color: 'white'
+          } }}
           rows={reclamations.claims ?? []}
           columns={
             [

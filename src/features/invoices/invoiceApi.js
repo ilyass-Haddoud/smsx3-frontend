@@ -21,8 +21,8 @@ const addInvoiceRequest = createAsyncThunk(
   }
 );
 
-export const getInvoicesRequest = createAsyncThunk(
-  "invoice/getInvoicesRequest",
+export const getAllInvoicesRequest = createAsyncThunk(
+  "invoice/getAllInvoicesRequest",
   async ({token, decodedToken}) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -39,12 +39,29 @@ export const getInvoicesRequest = createAsyncThunk(
 );
 
 export const getInvoiceByIdRequest = createAsyncThunk(
-  "invoice/updateInvoiceByIdRequest",
+  "invoice/getInvoiceByIdRequest",
   async ({requestData, token, decodedToken}) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     };
     let url = "http://localhost:8080/invoices/id/"+requestData.id;
+    try {
+      const res = await axios.get(url, config);
+      const data = await res.data;
+      return data
+    } catch (error) {
+      throw error.response.data;
+    }
+  }
+);
+
+export const getInvoiceBySupplierIdRequest = createAsyncThunk(
+  "invoice/getInvoiceBySupplierIdRequest",
+  async ({token, decodedToken}) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    let url = "http://localhost:8080/invoices/"+decodedToken.id;
     try {
       const res = await axios.get(url, config);
       const data = await res.data;

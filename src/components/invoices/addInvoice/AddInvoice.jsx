@@ -163,7 +163,6 @@ const AddInvoice = () => {
           texteLigne92: item.texteLigne92,
       }))
   };
-    console.log(formattedData);
     dispatch(addInvoiceRequest({requestData: formattedData, token, decodedToken}));
   };
 

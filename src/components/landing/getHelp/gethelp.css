@@ -23,4 +23,5 @@
 
 .gethelp .image img{
     width: 400px;
+    border-radius: 0 15px 15px 0px;
 }

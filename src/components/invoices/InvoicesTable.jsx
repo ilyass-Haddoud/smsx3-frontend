@@ -15,10 +15,15 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import ExpandIcon from '@mui/icons-material/Expand';
 import Grid from "@mui/material/Grid";
-import { getInvoicesRequest } from "../../features/invoices/invoiceApi";
+import { getInvoiceBySupplierIdRequest } from "../../features/invoices/invoiceApi";
 import { useDispatch, useSelector } from "react-redux";
 import {jwtDecode} from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import SyncIcon from '@mui/icons-material/Sync';
+import { getInvoicesFromSageRequest } from "../../features/sageInvoices/sageInvoiceApi";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 
 const etats = {
@@ -36,6 +41,8 @@ const InvoicesTable = React.memo(() => {
   const [openModal, setOpenModal] = useState(false);
 
   const factures = useSelector(state=>state.invoiceReducer);
+  const sageFactures = useSelector(state=>state.sageInvoiceReducer);
+  const [syncing, setSyncing] = useState(false);
 
   const [editedInvoice, setEditedInvoice] = useState(null);
   const [editedValues, setEditedValues] = useState({});
@@ -48,8 +55,8 @@ const InvoicesTable = React.memo(() => {
 
 
   useEffect(() => {
-    dispatch(getInvoicesRequest({ token, decodedToken }));
-  }, []);
+    dispatch(getInvoiceBySupplierIdRequest({ token, decodedToken }));
+  }, [syncing]);
  
   const handleShowClick = useCallback(
     (invoice) => () => {
@@ -60,9 +67,78 @@ const InvoicesTable = React.memo(() => {
     []
   );
 
-  const handleSaveClick = () => {
+  const syncStatus = async (invoice_id, status) => {
+    console.log({invoice_id, status});
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    const url = `http://localhost:8080/invoices/syncStatus/${invoice_id}`;
+    try {
+      const res = await axios.put(url, { etat: status }, config);
+      const data = await res.data;
+      return res.data;
+    } catch (error) {
+      if (error.response) {
+        throw error.response.data;
+      } else {
+        throw new Error('An unexpected error occurred');
+      }
+    }
+  };
+  
+
+  const handleSync = async () => {
+    setSyncing(true);
+
+    await dispatch(getInvoicesFromSageRequest({ requestData: decodedToken.name, token, decodedToken }));
+
+    if(factures.invoices.length == 0 || sageFactures.invoices.length == 0)
+      {
+        toast.error("sage x3 not responding, please try again.", {
+          theme: "colored",
+        })
+        setSyncing(false);
+        return;
+      }
+  
+    const updatedInvoices = factures.invoices
+      .filter(invoice => [1, 2, 3, 5].includes(invoice.etat))
+      .map(invoice => {
+        const matchingInvoice = sageFactures.invoices.find(sageInvoice => sageInvoice.document_origine === invoice.documentOrigine);
+        if (matchingInvoice) {
+          return {
+            ...invoice,
+            etat: matchingInvoice.etat
+          };
+        }
+        return null;
+      })
+      .filter(invoice => invoice !== null);
+    console.log({updatedInvoices})
+    if(updatedInvoices.length == 0) {
+      toast.info("Factures à jours.", {
+        theme: "colored",
+      })
+      setSyncing(false)
+      return;
+    }  
     
-  }
+    for (const invoice of updatedInvoices) {
+      try {
+        console.log(invoice.id, parseInt(invoice.etat));
+        const response = await syncStatus(invoice.id, parseInt(invoice.etat));
+        console.log(`Invoice ${invoice.id} status updated:`, response);
+        toast.success("factures syncronisées avec succée.", {
+          theme: "colored",
+        })
+      } catch (error) {
+        console.error(`Failed to update status for invoice ${invoice.id}:`, error.message || error);
+      }
+    }
+  
+    setSyncing(false);
+  };
+  
 
   const handleEditClick = useCallback((id) => () => {
       navigate(`/invoices/${id}`);
@@ -95,17 +171,28 @@ const InvoicesTable = React.memo(() => {
       }
       {
         !factures.isLoading &&
-        <div
+        <Box
           style={{
             height: "60vh",
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: "2rem",
+            gap: "0rem",
           }}
         >
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap:".3rem" }}>
+            <Typography gutterBottom sx={{fontSize:"12px"}}>
+              {!syncing ? "Synchroniser" : "Synchronisation en cours..."}
+            </Typography>
+            <SyncIcon fontSize="12" sx={{ cursor: "pointer" }} onClick={handleSync}/>
+          </Box>
           <DataGrid
-            sx={{ maxHeight: "100%", width: "100%"}}
+            sx={{ maxHeight: "100%", 
+                  width: "100%",
+                  '& .MuiDataGrid-columnHeader ,.MuiDataGrid-scrollbarFiller': {
+                  backgroundColor: '#bebecb',
+                  color: 'white'
+                }}}
             rows={factures.invoices || []}
             getRowId={getRowId}
             columns={[
@@ -348,7 +435,7 @@ const InvoicesTable = React.memo(() => {
               </Stack>
             </Box>
           </Modal>
-        </div>
+        </Box>
       }
     </>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import addInvoiceRequest, { getInvoiceByIdRequest, getInvoicesRequest, updateInvoiceRequest } from "./invoiceApi";
+import addInvoiceRequest, { getInvoiceByIdRequest, getInvoiceBySupplierIdRequest, getAllInvoicesRequest, updateInvoiceRequest } from "./invoiceApi";
 
 
 const initialState = {
@@ -37,17 +37,17 @@ const InvoiceSlice = createSlice({
       state.newInvoice = null;
     });
     // get invoices
-    builder.addCase(getInvoicesRequest.fulfilled, (state, action) => {
+    builder.addCase(getAllInvoicesRequest.fulfilled, (state, action) => {
       state.errors = null;
       state.isLoading = false;
       state.invoices = action.payload;
     });
-    builder.addCase(getInvoicesRequest.rejected, (state, action) => {
+    builder.addCase(getAllInvoicesRequest.rejected, (state, action) => {
       state.errors = action.error.message;
       state.isLoading = false;
       state.invoices = [];
     });
-    builder.addCase(getInvoicesRequest.pending, (state) => {
+    builder.addCase(getAllInvoicesRequest.pending, (state) => {
       state.isLoading = true;
       state.errors = null;
       state.invoices = [];
@@ -68,6 +68,23 @@ const InvoiceSlice = createSlice({
       state.isLoading = true;
       state.errors = null;
       state.invoiceToUpdate = null;
+    });
+
+    // get invoice by supplier id
+    builder.addCase(getInvoiceBySupplierIdRequest.fulfilled, (state, action) => {
+      state.errors = null;
+      state.isLoading = false;
+      state.invoices = action.payload;
+    });
+    builder.addCase(getInvoiceBySupplierIdRequest.rejected, (state, action) => {
+      state.errors = action.error.message;
+      state.isLoading = false;
+      state.invoices = null;
+    });
+    builder.addCase(getInvoiceBySupplierIdRequest.pending, (state) => {
+      state.isLoading = true;
+      state.errors = null;
+      state.invoices = null;
     });
 
     // update invoices
