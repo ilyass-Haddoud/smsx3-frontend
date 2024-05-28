@@ -55,7 +55,7 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <h2 style={{ marginBottom: "1rem" }}>Tableau de bord</h2>
+      <h2 style={{ marginBottom: "1rem" }}>Panneau de controle</h2>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="inherit"

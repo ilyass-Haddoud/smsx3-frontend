@@ -10,7 +10,8 @@ import Invoice from "../pages/Invoice";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Account from "../pages/Account";
 import ForgotPassword from "../pages/ForgotPassword";
-import ResetPassword from "../pages/ResetPassword"
+import ResetPassword from "../pages/ResetPassword";
+import {Dashboard} from "../screens/"
 
 const App = () => {
   return (
@@ -18,13 +19,14 @@ const App = () => {
       <Header />
       <Routes>
         <Route element={<ProtectedRoute/>}>
-          <Route element={<Home />} path="/dashboard" />
+          <Route element={<Home />} path="/control_panel" />
         </Route>
         <Route element={<Landing />} path="/" />
         <Route element={<Login />} path="auth/login" />
         <Route element={<Register />} path="auth/register" />
         <Route element={<Account />} path="account" />
         <Route element={<Invoice />} path="/invoices/:id" />
+        <Route element={<Dashboard />} path="/dashboard" />
         <Route element={<ForgotPassword/>} path="/forgot_password"/>
         <Route element={<ResetPassword/>} path="/reset_password"/>
         <Route element={<NotFound />} path="*" />

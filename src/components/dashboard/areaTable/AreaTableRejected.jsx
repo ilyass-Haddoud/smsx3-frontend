@@ -32,7 +32,7 @@ const getStatusText = (etat) => {
   }
 };
 
-const AreaTable = () => {
+const AreaTableRejected = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -41,7 +41,8 @@ const AreaTable = () => {
       setLoading(true);
       try {
         const factures = await getFacturesApi();
-        setData(factures);
+        const rejectedFactures = factures.filter(facture => facture.etat == 7)
+        setData(rejectedFactures);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -55,7 +56,7 @@ const AreaTable = () => {
   return (
     <section className="content-area-table">
       <div className="data-table-info">
-        <h4 className="data-table-title">Dernières factures</h4>
+        <h4 className="data-table-title">Factures rejetées</h4>
       </div>
       <div className="data-table-diagram">
         <table>
@@ -95,4 +96,4 @@ const AreaTable = () => {
   );
 };
 
-export default AreaTable;
+export default AreaTableRejected;

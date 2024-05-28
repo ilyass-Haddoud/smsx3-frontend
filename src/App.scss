@@ -163,6 +163,9 @@ ul {
 
 // content
 .content-area {
+  background-color: #F6F6F6;
+  padding: 1rem;
+  border-radius: 15px;
   & > section {
     margin-bottom: 16px;
     &:last-child {

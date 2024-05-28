@@ -17,7 +17,9 @@
   .data-table-diagram {
     border-radius: 6px;
     border: 1px solid var(--tbl-border-color) !important;
-    overflow-x: scroll;
+    overflow-x: auto;
+    overflow-y: auto; // Add this line
+    max-height: 400px; // Adjust the height as needed
 
     &::-webkit-scrollbar {
       height: 6px;

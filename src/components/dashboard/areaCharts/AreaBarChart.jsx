@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -12,79 +12,75 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { FaArrowUpLong } from "react-icons/fa6";
 import { LIGHT_THEME } from "../../../constants/themeConstants";
 import "./AreaCharts.scss";
-
-const data = [
-  {
-    month: "Jan",
-    loss: 70,
-    profit: 100,
-  },
-  {
-    month: "Feb",
-    loss: 55,
-    profit: 85,
-  },
-  {
-    month: "Mar",
-    loss: 35,
-    profit: 90,
-  },
-  {
-    month: "April",
-    loss: 90,
-    profit: 70,
-  },
-  {
-    month: "May",
-    loss: 55,
-    profit: 80,
-  },
-  {
-    month: "Jun",
-    loss: 30,
-    profit: 50,
-  },
-  {
-    month: "Jul",
-    loss: 32,
-    profit: 75,
-  },
-  {
-    month: "Aug",
-    loss: 62,
-    profit: 86,
-  },
-  {
-    month: "Sep",
-    loss: 55,
-    profit: 78,
-  },
-];
+import getFournisseursApi from "../../../api/getFournisseursApi";
 
 const AreaBarChart = () => {
   const { theme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [validatedInvoicesCount, setValidatedInvoicesCount] = useState(0);
+  const [newInvoicesCount, setNewInvoicesCount] = useState(0);
 
-  const formatTooltipValue = (value) => {
-    return `${value}k`;
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const fournisseurs = await getFournisseursApi();
+        let totalValidated = 0;
+        let totalNewInvoices = 0;
 
-  const formatYAxisLabel = (value) => {
-    return `${value}k`;
-  };
+        const data = fournisseurs.slice(0, 9).map(fournisseur => {
+          const validInvoices = fournisseur.invoices.filter(invoice => invoice.etat === 4).length;
+          totalValidated += validInvoices;
 
-  const formatLegendValue = (value) => {
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  };
+          const rejectedInvoices = fournisseur.invoices.filter(invoice => invoice.etat === 6).length;
+
+          const today = new Date();
+          const yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+
+          const newInvoices = fournisseur.invoices.filter(invoice => {
+            const invoiceDate = new Date(invoice.createdAt);
+            return invoiceDate >= yesterday && invoiceDate < today;
+          }).length;
+
+          totalNewInvoices += newInvoices;
+
+          return {
+            "Fournisseur": fournisseur.bpsnum,
+            "Validée": validInvoices,
+            "Rejetée": rejectedInvoices,
+          };
+        });
+
+        setData(data);
+        setValidatedInvoicesCount(totalValidated);
+        setNewInvoicesCount(totalNewInvoices);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatTooltipValue = (value) => `${value}`;
+
+  const formatYAxisLabel = (value) => `${value}`;
+
+  const formatLegendValue = (value) => value.charAt(0).toUpperCase() + value.slice(1);
 
   return (
     <div className="bar-chart">
       <div className="bar-chart-info">
-        <h5 className="bar-chart-title">Total Revenue</h5>
+        <h5 className="bar-chart-title">État de facturation</h5>
         <div className="chart-info-data">
-          <div className="info-data-value">$50.4K</div>
+          <div className="info-data-value">{validatedInvoicesCount} validée</div>
           <div className="info-data-text">
             <FaArrowUpLong />
-            <p>5% than last month.</p>
+            <p>{newInvoicesCount} nouvelles factures depuis hier.</p>
           </div>
         </div>
       </div>
@@ -103,22 +99,21 @@ const AreaBarChart = () => {
           >
             <XAxis
               padding={{ left: 10 }}
-              dataKey="month"
+              dataKey="Fournisseur"
               tickSize={0}
               axisLine={false}
               tick={{
-                fill: `${theme === LIGHT_THEME ? "#676767" : "#f3f3f3"}`,
+                fill:"#676767",
                 fontSize: 14,
               }}
             />
             <YAxis
               padding={{ bottom: 10, top: 10 }}
               tickFormatter={formatYAxisLabel}
-              tickCount={6}
               axisLine={false}
               tickSize={0}
               tick={{
-                fill: `${theme === LIGHT_THEME ? "#676767" : "#f3f3f3"}`,
+                fill: "#676767",
               }}
             />
             <Tooltip
@@ -133,7 +128,7 @@ const AreaBarChart = () => {
               formatter={formatLegendValue}
             />
             <Bar
-              dataKey="profit"
+              dataKey="Validée"
               fill="#475be8"
               activeBar={false}
               isAnimationActive={false}
@@ -141,7 +136,7 @@ const AreaBarChart = () => {
               radius={[4, 4, 4, 4]}
             />
             <Bar
-              dataKey="loss"
+              dataKey="Rejetée"
               fill="#e3e7fc"
               activeBar={false}
               isAnimationActive={false}

@@ -1,4 +1,4 @@
-import { AreaCards, AreaCharts, AreaTable, AreaTop } from "../../components";
+import { AreaCards, AreaCharts, AreaTable, AreaTableRejected, AreaTop } from "../../components";
 
 const Dashboard = () => {
   return (
@@ -7,6 +7,7 @@ const Dashboard = () => {
       <AreaCards />
       <AreaCharts />
       <AreaTable />
+      <AreaTableRejected />
     </div>
   );
 };

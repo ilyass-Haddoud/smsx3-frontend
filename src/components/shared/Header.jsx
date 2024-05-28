@@ -32,8 +32,8 @@ const connectdePages = [
 ];
 
 const settings = [
-  {name:"Profile",url:"/profile"},
   {name:"Account",url:"/account"},
+  {name:"Control panel",url:"/control_panel"},
   {name:"Dashboard",url:"/dashboard"},
   {name:"Logout",url:"/logout"}
 ];

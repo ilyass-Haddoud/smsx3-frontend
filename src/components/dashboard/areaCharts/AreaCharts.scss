@@ -105,6 +105,13 @@
       font-weight: 600;
     }
   }
+
+  .bar-item-info-name{
+    margin-bottom: 1rem;
+    color: var(--text-color-inverted);
+    font-weight: 600;
+  }
+
   .progress-bar-list {
     display: grid;
     row-gap: 20px;
@@ -127,4 +134,8 @@
     border-radius: 100vh;
     background-color: var(--chart-primary-color);
   }
+}
+
+p{
+  color: var(--text-color-inverted);
 }
