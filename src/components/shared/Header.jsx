@@ -19,14 +19,14 @@ import { jwtDecode } from 'jwt-decode';
 
 const pages = [
   {name:"Présentation", url: "/"},
-  { name: "Acceuil", url: "" },
+  { name: "Acceuil", url: "/dashboard" },
   { name: "Connection", url: "/auth/login" },
   { name: "Inscription", url: "/auth/register" },
 ];
 
 const connectdePages = [
   {name:"Présentation", url: "/"},
-  { name: "Acceuil", url: "" },
+  { name: "Acceuil", url: "/dashboard" },
   { name: "Contactez-nous", url: "" },
   { name: "Mes Tickets", url: "" },
 ];
@@ -226,7 +226,7 @@ const Header = () => {
         }}
         sx={{marginTop:2}}
       >
-        <MenuItem onClick={handleCloseContactMenu}>Adresse email: contact@example.com</MenuItem>
+        <MenuItem onClick={handleCloseContactMenu}>Adresse email: smsx3.portal@gmail.com</MenuItem>
         <MenuItem onClick={handleCloseContactMenu}>Téléphone: 0123456789</MenuItem>
       </Menu>
     </div>

@@ -5,12 +5,19 @@ import axios from "axios";
 
 const addInvoiceRequest = createAsyncThunk(
   "invoice/addInvoiceRequest",
-  async ({requestData, token, decodedToken}) => {
+  async ({requestData, file, token, decodedToken}) => {
+    const body = new FormData();
+    body.append("test","ilyass")
+    body.append("file", file)
+    body.append("invoice",JSON.stringify(requestData))
+    console.log(...body);
     const config = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
     };
     let url = "http://localhost:8080/invoices/"+decodedToken.id+"/addInvoice";
-    let body = requestData;
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
@@ -65,6 +72,7 @@ export const getInvoiceBySupplierIdRequest = createAsyncThunk(
     try {
       const res = await axios.get(url, config);
       const data = await res.data;
+      console.log(data);
       return data
     } catch (error) {
       throw error.response.data;

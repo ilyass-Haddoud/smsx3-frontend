@@ -21,6 +21,7 @@ import {jwtDecode} from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import { getInvoicesFromSageRequest } from "../../features/sageInvoices/sageInvoiceApi";
+import DownloadIcon from '@mui/icons-material/Download';
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -68,7 +69,6 @@ const InvoicesTable = React.memo(() => {
   );
 
   const syncStatus = async (invoice_id, status) => {
-    console.log({invoice_id, status});
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     };
@@ -114,7 +114,7 @@ const InvoicesTable = React.memo(() => {
         return null;
       })
       .filter(invoice => invoice !== null);
-    console.log({updatedInvoices})
+    ({updatedInvoices})
     if(updatedInvoices.length == 0) {
       toast.info("Factures à jours.", {
         theme: "colored",
@@ -125,9 +125,7 @@ const InvoicesTable = React.memo(() => {
     
     for (const invoice of updatedInvoices) {
       try {
-        console.log(invoice.id, parseInt(invoice.etat));
         const response = await syncStatus(invoice.id, parseInt(invoice.etat));
-        console.log(`Invoice ${invoice.id} status updated:`, response);
         toast.success("factures syncronisées avec succée.", {
           theme: "colored",
         })
@@ -138,6 +136,44 @@ const InvoicesTable = React.memo(() => {
   
     setSyncing(false);
   };
+
+
+  const handleDownload = async (invoice) => {
+    if (!invoice.row.document) {
+      console.log("Aucune facture trouvée");
+      return;
+    }
+  
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'blob' // Ensure the response is treated as a blob
+    };
+    
+    const url = `http://localhost:8080/invoices/download/${invoice.row.document}`;
+    try {
+      const res = await axios.get(url, config);
+  
+      // Create a new Blob object using the response data of the file
+      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = invoice.row.document; // Use the actual document name for download
+      link.click();
+  
+      // Clean up by revoking the Object URL
+      window.URL.revokeObjectURL(link.href);
+    } catch (error) {
+      console.error('Error downloading the file:', error);
+      if (error.response) {
+        toast.error("Failed to download the file. Please try again.", {
+          theme: "colored",
+        });
+      } else {
+        throw new Error('An unexpected error occurred');
+      }
+    }
+  };
+  
   
 
   const handleEditClick = useCallback((id) => () => {
@@ -217,7 +253,7 @@ const InvoicesTable = React.memo(() => {
                   return [
                     <GridActionsCellItem
                       key="show"
-                      icon={<EditIcon />}
+                      icon={<ExpandIcon />}
                       label="show"
                       className="textPrimary"
                       onClick={handleShowClick(invoice)}
@@ -225,9 +261,16 @@ const InvoicesTable = React.memo(() => {
                     />,
                     <GridActionsCellItem
                       key="edit"
-                      icon={<ExpandIcon />}
+                      icon={<EditIcon />}
                       label="Edit"
                       onClick={handleEditClick(id)}
+                      color="inherit"
+                    />,
+                    <GridActionsCellItem
+                      key="download"
+                      icon={<DownloadIcon />}
+                      label="Edit"
+                      onClick={()=>handleDownload(invoice)}
                       color="inherit"
                     />,
                   ];

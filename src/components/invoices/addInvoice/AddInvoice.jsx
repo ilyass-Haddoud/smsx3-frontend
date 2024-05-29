@@ -18,6 +18,7 @@ import {jwtDecode} from 'jwt-decode';
 
 
 const AddInvoice = () => {
+  const [file, setFile] = useState(null);
   const token = localStorage.getItem("token");
   const decodedToken = token && jwtDecode(token);
   const [openModal, setOpenModal] = useState(true);
@@ -44,7 +45,7 @@ const AddInvoice = () => {
     texteEntete72: "",
     textePied81: "",
     textePied82: "",
-    items: []
+    items: [],
   };
 
   const newInvoice = useSelector(state => state.invoiceReducer.newInvoice);
@@ -161,9 +162,9 @@ const AddInvoice = () => {
           affaire: item.affaire,
           texteLigne91: item.texteLigne91,
           texteLigne92: item.texteLigne92,
-      }))
+      })),
   };
-    dispatch(addInvoiceRequest({requestData: formattedData, token, decodedToken}));
+  dispatch(addInvoiceRequest({requestData: formattedData, file,  token, decodedToken}));
   };
 
   const handleCloseModal = () => {
@@ -259,7 +260,7 @@ const AddInvoice = () => {
       <Button variant="contained" color="success" onClick={() => setOpenScanningModal(true)}>
         Ajouter une facture
       </Button>
-      {!newInvoice && <InvoiceScanning open={openScanningModal} setOpen={setOpenScanningModal} />}
+      {!newInvoice && <InvoiceScanning file={file} setFile={setFile} open={openScanningModal} setOpen={setOpenScanningModal} />}
       {newInvoice && (
         <Modal
           open={openModal}
@@ -285,32 +286,57 @@ const AddInvoice = () => {
             </Typography>
             <form onSubmit={handleSubmit(handleSubmitForm)}>
               <Grid container spacing={2}>
-                {Object.keys(formDataKeys).map((key) => (
+              {Object.keys(formDataKeys).map((key) => (
                   key !== 'items' && (
                     <Grid key={key} item xs={6} sm={3}>
-                      <Controller
-                        control={control}
-                        name={key}
-                        rules={{ required: requiredFields.includes(key) }}
-                        render={({ field: { value, onChange } }) => (
-                          <TextField
-                            label={
-                              <span>
-                                {key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                                {requiredFields.includes(key) && <span style={{ color: "red" }}> *</span>}
-                              </span>
-                            }
-                            value={value}
-                            onChange={onChange}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            error={errors[key]}
-                          />
-                        )}
-                      />
+                      {key !== 'document' ? (
+                        <Controller
+                          control={control}
+                          name={key}
+                          rules={{ required: requiredFields.includes(key) }}
+                          render={({ field: { value, onChange } }) => (
+                            <TextField
+                              label={
+                                <span>
+                                  {key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                                  {requiredFields.includes(key) && <span style={{ color: "red" }}> *</span>}
+                                </span>
+                              }
+                              value={value}
+                              onChange={onChange}
+                              fullWidth
+                              sx={{ mb: 2 }}
+                              error={errors[key]}
+                            />
+                          )}
+                        />
+                      ) : (
+                        <>
+                        <input
+                          accept=".pdf,.png,.jpg"
+                          style={{ display: 'none' }}
+                          id="contained-button-file"
+                          multiple
+                          type="file"
+                          onChange={(e) => {
+                            const fichier = e.target.files[0];
+                            setFile(fichier); // Mettre à jour le fichier dans l'état local ou le transmettre à la fonction nécessaire
+                          }}
+                        />
+                        <label htmlFor="contained-button-file">
+                          <Button variant="contained" component="span">
+                            Choisir un fichier
+                          </Button>
+                          {file && file.name}
+                        </label>
+                        </>
+                        
+                      )}
                     </Grid>
                   )
-                ))}
+                ))
+              }
+
               </Grid>
               <Typography variant="h7" gutterBottom>
                 Articles :

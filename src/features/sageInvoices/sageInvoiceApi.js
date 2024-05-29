@@ -129,7 +129,6 @@ export const addInvoiceToSageRequest = createAsyncThunk(
     try {
       const res = await axios.post(url, body, config);
       const data = await res.data;
-      console.log(data);
       return data;
     } catch (error) {
       throw error.response.data;

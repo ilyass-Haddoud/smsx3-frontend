@@ -34,7 +34,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function InvoiceScanning({ open, setOpen }) {
+export default function InvoiceScanning({ file, setFile, open, setOpen }) {
   const dispatch = useDispatch();
 
   const [isUploading, setIsUploading] = useState(false);
@@ -47,9 +47,9 @@ export default function InvoiceScanning({ open, setOpen }) {
   } = useForm();
 
   const handleFileSelect = async(event) => {
-    const file = event.target.files[0];
+    const doc = event.target.files[0];
     const formData = new FormData();
-    formData.append("document", file);
+    formData.append("document", doc);
     setIsUploading(true);
     try {
         const response = await axios.post("http://127.0.0.1:5000/extract_fields", formData, {
@@ -58,6 +58,7 @@ export default function InvoiceScanning({ open, setOpen }) {
           },
         });
         const result = response.data;
+        setFile(doc)
         dispatch(addInvoice(result))
       } catch (error) {
         console.error("Error uploading file: ", error);
