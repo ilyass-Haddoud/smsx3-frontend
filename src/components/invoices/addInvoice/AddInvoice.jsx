@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import addInvoiceRequest from "../../../features/invoices/invoiceApi";
 import {jwtDecode} from 'jwt-decode';
+import { addInvoice } from "../../../features/invoices/invoiceSlice";
 
 
 const AddInvoice = () => {
@@ -69,7 +70,7 @@ const AddInvoice = () => {
   });
 
   const initializeForm = (invoice) => {
-    const updatedInvoice = { ...formDataKeys, ...invoice };
+    const updatedInvoice = { ...formDataKeys, ...invoice, tiers: decodedToken.name };
     if (!updatedInvoice.items) {
       updatedInvoice.items = [];
     } else {
@@ -296,6 +297,7 @@ const AddInvoice = () => {
                           rules={{ required: requiredFields.includes(key) }}
                           render={({ field: { value, onChange } }) => (
                             <TextField
+                              disabled = {key == "tiers"}
                               label={
                                 <span>
                                   {key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}

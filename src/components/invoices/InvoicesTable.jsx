@@ -54,7 +54,6 @@ const InvoicesTable = React.memo(() => {
   const decodedToken = token && jwtDecode(token);
   const isAdmin = decodedToken && decodedToken.roles[0] === "Administrateur";
 
-
   useEffect(() => {
     dispatch(getInvoiceBySupplierIdRequest({ token, decodedToken }));
   }, [syncing]);
@@ -68,11 +67,11 @@ const InvoicesTable = React.memo(() => {
     []
   );
 
-  const syncStatus = async (invoice_id, status) => {
+  const syncStatus = async (invoice_id, status, numeroPiece) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     };
-    const url = `http://localhost:8080/invoices/syncStatus/${invoice_id}`;
+    const url = `http://localhost:8080/invoices/syncStatus/${invoice_id}/${numeroPiece}`;
     try {
       const res = await axios.put(url, { etat: status }, config);
       const data = await res.data;
@@ -102,19 +101,20 @@ const InvoicesTable = React.memo(() => {
       }
   
     const updatedInvoices = factures.invoices
-      .filter(invoice => [1, 2, 3, 5].includes(invoice.etat))
+      .filter(invoice => [5].includes(invoice.etat))
       .map(invoice => {
         const matchingInvoice = sageFactures.invoices.find(sageInvoice => sageInvoice.document_origine === invoice.documentOrigine);
         if (matchingInvoice) {
           return {
             ...invoice,
-            etat: matchingInvoice.etat
+            etat: matchingInvoice.etat,
+            numeroPiece: matchingInvoice.numero_de_piece
           };
         }
         return null;
       })
       .filter(invoice => invoice !== null);
-    ({updatedInvoices})
+    // ({updatedInvoices})
     if(updatedInvoices.length == 0) {
       toast.info("Factures à jours.", {
         theme: "colored",
@@ -125,7 +125,7 @@ const InvoicesTable = React.memo(() => {
     
     for (const invoice of updatedInvoices) {
       try {
-        const response = await syncStatus(invoice.id, parseInt(invoice.etat));
+        const response = await syncStatus(invoice.id, parseInt(invoice.etat), invoice.numeroPiece);
         toast.success("factures syncronisées avec succée.", {
           theme: "colored",
         })

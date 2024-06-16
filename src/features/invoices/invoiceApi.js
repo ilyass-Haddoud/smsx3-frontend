@@ -10,7 +10,6 @@ const addInvoiceRequest = createAsyncThunk(
     body.append("test","ilyass")
     body.append("file", file)
     body.append("invoice",JSON.stringify(requestData))
-    console.log(...body);
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -72,7 +71,6 @@ export const getInvoiceBySupplierIdRequest = createAsyncThunk(
     try {
       const res = await axios.get(url, config);
       const data = await res.data;
-      console.log(data);
       return data
     } catch (error) {
       throw error.response.data;
