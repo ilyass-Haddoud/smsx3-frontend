@@ -65,31 +65,31 @@ const AdditionalInfo = ({ step, setStep }) => {
         <h3>Informations supplémentaires</h3>
         <div className="input_grp">
           <div className="form_input_group">
-            <label htmlFor="">Fournisseur groupe</label>
+            <label htmlFor="">Fournisseur groupe <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSGRU")} />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Tiers risque</label>
+            <label htmlFor="">Tiers risque <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSRSK")} />
           </div>
         </div>
         <div className="input_grp">
           <div className="form_input_group">
-            <label htmlFor="">Catégorie</label>
+            <label htmlFor="">Catégorie <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BSGCOD")} />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Transporteur</label>
+            <label htmlFor="">Transporteur <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPTNUM")} />
           </div>
         </div>
         <div className="input_grp">
           <div className="form_input_group">
-            <label htmlFor="">N° fournisseur</label>
+            <label htmlFor="">N° fournisseur <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSNUMBPS")} />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Type de fournisseur</label>
+            <label htmlFor="">Type de fournisseur <span style={{color:'red'}}>*</span></label>
             <select {...register("BPSTYP")}>
               <option value="normal">Normal</option>
               <option value="prospect">Prospect</option>
@@ -98,7 +98,7 @@ const AdditionalInfo = ({ step, setStep }) => {
           </div>
         </div>
         <div className="form_input_group">
-          <label htmlFor="">Observations</label>
+          <label htmlFor="">Observations <span style={{color:'red'}}>*</span></label>
           <input type="text" {...register("BPSREM")} />
         </div>
         <button>Soumettre</button>

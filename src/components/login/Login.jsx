@@ -77,12 +77,12 @@ const Login = () => {
             <header>Se connecter</header>
 
             <div className="form_input_group">
-              <label>Mail ou numéro de téléphone</label>
+              <label>Mail ou numéro de téléphone <span style={{color:'red'}}>*</span></label>
               <input type="email" {...register("email")} />
             </div>
             <div className="form_input_group">
               <div className="password_metadata">
-                <label>Mot de passe</label>
+                <label>Mot de passe <span style={{color:'red'}}>*</span></label>
                 {isVisible && (
                   <GoEyeClosed
                     style={{ cursor: "pointer" }}
@@ -102,7 +102,7 @@ const Login = () => {
               />
             </div>
             <div className="form_input_group">
-              <label>Sélectionnez votre rôle : </label>
+              <label>Sélectionnez votre rôle <span style={{color:'red'}}>*</span></label>
               <select {...register("role")} defaultValue="client">
                 <option value="administrateur">Admin </option>
                 <option value="fournisseur">Fournisseur</option>

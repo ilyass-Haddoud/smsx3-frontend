@@ -24,19 +24,7 @@ const pages = [
   { name: "Inscription", url: "/auth/register" },
 ];
 
-const connectdePages = [
-  {name:"Présentation", url: "/"},
-  { name: "Acceuil", url: "/dashboard" },
-  { name: "Contactez-nous", url: "" },
-  { name: "Mes Tickets", url: "" },
-];
 
-const settings = [
-  {name:"Account",url:"/account"},
-  {name:"Control panel",url:"/control_panel"},
-  {name:"Dashboard",url:"/dashboard"},
-  {name:"Logout",url:"/logout"}
-];
 
 
 const Header = () => {
@@ -47,7 +35,24 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const token = localStorage.getItem("token");
   const decodedToken = token && jwtDecode(token);
-  const loginState = useSelector(state => state.loginReducer);
+
+  const connectdePages = (decodedToken && decodedToken.roles.includes("Administrateur")) ? [
+    {name:"Présentation", url: "/"},
+    { name: "Acceuil", url: "/dashboard" },
+    { name: "Contactez-nous", url: "" },
+  ] : [
+    {name:"Présentation", url: "/"},
+    { name: "Acceuil", url: "/dashboard" },
+    { name: "Contactez-nous", url: "" },
+    { name: "Mes Tickets", url: "" },
+  ];
+  
+  const settings = [
+    {name:"Account",url:"/account"},
+    {name:"Control panel",url:"/control_panel"},
+    {name:"Dashboard",url:"/dashboard"},
+    {name:"Logout",url:"/logout"}
+  ];
   
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

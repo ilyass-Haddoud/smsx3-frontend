@@ -39,30 +39,30 @@ const BaseInfo = ({ step, setStep }) => {
         <h3>Informations de base</h3>
         <div className="input_grp">
           <div className="form_input_group">
-            <label htmlFor="">Prénom</label>
+            <label htmlFor="">Prénom <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSLNAME")} />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Nom</label>
+            <label htmlFor="">Nom <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSFNAME")} />
           </div>
         </div>
         <div className="input_grp">
           <div className="form_input_group">
-            <label htmlFor="">Identifiant</label>
+            <label htmlFor="">Identifiant <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSNUM")} />
           </div>
           <div className="form_input_group">
-            <label htmlFor="">Raison sociale</label>
+            <label htmlFor="">Raison sociale <span style={{color:'red'}}>*</span></label>
             <input type="text" {...register("BPSNAM")} />
           </div>
         </div>
         <div className="form_input_group">
-          <label htmlFor="">Adresse de facturation</label>
+          <label htmlFor="">Adresse de facturation <span style={{color:'red'}}>*</span></label>
           <input type="text" {...register("BPAINV")} />
         </div>
         <div className="form_input_group">
-          <label htmlFor="">Adresse par défaut</label>
+          <label htmlFor="">Adresse par défaut <span style={{color:'red'}}>*</span></label>
           <input type="text" {...register("BPAADD")} />
         </div>
         <button>Suivant</button>

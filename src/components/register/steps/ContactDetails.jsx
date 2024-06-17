@@ -40,16 +40,16 @@ const ContactDetails = ({ step, setStep }) => {
         <header>S'inscrire</header>
         <h3>Coordonnées</h3>
         <div className="form_input_group">
-          <label htmlFor="">Numéro de téléphone</label>
+          <label htmlFor="">Numéro de téléphone <span style={{color:'red'}}>*</span></label>
           <input type="text" {...register("BPSNUMTEL")} />
         </div>
         <div className="form_input_group">
-          <label htmlFor="">Adresse e-mail</label>
+          <label htmlFor="">Adresse e-mail <span style={{color:'red'}}>*</span></label>
           <input type="text" {...register("BPSADDEML")} />
         </div>
         <div className="form_input_group">
           <div className="password_metadata">
-            <label>Mot de passe</label>
+            <label>Mot de passe <span style={{color:'red'}}>*</span></label>
             {isVisible && (
               <GoEyeClosed
                 style={{ cursor: "pointer" }}
